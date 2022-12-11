@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package com.maciejszczurek.updatechecker.application.proto;
+
+option java_outer_classname = "ApplicationProto";
+
+message Application {
+  int64 id = 1;
+  string name = 2;
+  string applicationType = 3;
+  string siteUrl = 4;
+  string updateUrl = 5;
+  string currentVersion = 6;
+  bool ignored = 7;
+  optional int64 lastUpdate = 8;
+}
