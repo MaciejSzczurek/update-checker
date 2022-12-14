@@ -27,11 +27,13 @@ import org.springframework.transaction.PlatformTransactionManager;
 @RequiredArgsConstructor
 public class ExporterConfig extends DefaultBatchConfiguration {
 
-  private final JobRepository jobRepository;
   private final EntityManagerFactory entityManagerFactory;
 
   @Bean
-  public Job exportApplications(final Step exportApplicationsStep) {
+  public Job exportApplications(
+    final Step exportApplicationsStep,
+    final JobRepository jobRepository
+  ) {
     return new JobBuilder("exportApplications", jobRepository)
       .start(exportApplicationsStep)
       .build();
@@ -40,7 +42,8 @@ public class ExporterConfig extends DefaultBatchConfiguration {
   @Bean
   public Step exportApplicationsStep(
     final ApplicationFileWriter applicationFileWriter,
-    final PlatformTransactionManager transactionManager
+    final PlatformTransactionManager transactionManager,
+    final JobRepository jobRepository
   ) {
     return new StepBuilder("exportApplicationsStep", jobRepository)
       .<Application, ApplicationProto.Application>chunk(
