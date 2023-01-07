@@ -14,7 +14,7 @@ Compiled JAR files for Windows can be downloaded from the releases page. For oth
 earlier using the command:
 
 ```bash
-./gradlew compileAndMove --moveDir=[path to install update-checker.jar]
+./gradlew compileAndMove -PmoveDir=[path to install update-checker.jar]
 ```
 
 Before compiling or after pulling the latest changes from the repository, run the `downloadChromeDriver` task, which
