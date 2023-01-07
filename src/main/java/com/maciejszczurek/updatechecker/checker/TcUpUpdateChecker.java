@@ -17,7 +17,9 @@ public class TcUpUpdateChecker extends UpdateChecker {
     setNewVersion(
       getJsoupConnectionInstance()
         .get()
-        .select("#newest > div > h3 > span > span > a > span:nth-child(2)")
+        .select(
+          "#inner_content-33-11 > p:nth-child(1) > mark.has-inline-color.has-luminous-vivid-amber-color"
+        )
         .text()
     );
   }

@@ -360,9 +360,7 @@ public class UpdateCheckerTest {
 
   @Test
   void tcUp() throws IOException, InterruptedException {
-    checkUpdate(
-      new TcUpUpdateChecker("https://www.tcup.pl/index.php/pl/pobierz", "")
-    );
+    checkUpdate(new TcUpUpdateChecker("https://www.tcup.pl/pobierz", ""));
   }
 
   @Test
