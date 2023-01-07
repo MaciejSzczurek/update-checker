@@ -88,7 +88,7 @@ test {
     useJUnitPlatform()
 }
 
-task compileAndMove {
+tasks.register('compileAndMove') {
     dependsOn bootJar
     doLast {
         ant.move file: "${buildDir}/libs/update-checker-${version}.jar",
