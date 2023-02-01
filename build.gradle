@@ -41,7 +41,7 @@ sourceSets {
 
 pmd {
     consoleOutput = true
-    toolVersion = '6.53.0'
+    toolVersion = '6.54.0'
     ruleSets = ['category/java/bestpractices.xml',
                 'category/java/codestyle.xml',
                 'category/java/design.xml',
