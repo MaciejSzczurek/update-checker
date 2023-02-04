@@ -30,12 +30,6 @@ import org.jetbrains.annotations.NotNull;
 @CacheableTask
 public abstract class DownloadChromeDriverTask extends DefaultTask {
 
-  @Input
-  abstract Property<String> getVersion();
-
-  @Internal
-  abstract Property<Integer> getThreadsNumber();
-
   private static final Pattern cdcPattern = Pattern.compile("cdc_.{22}");
 
   @NotNull
@@ -49,6 +43,12 @@ public abstract class DownloadChromeDriverTask extends DefaultTask {
       .append(RandomStringUtils.randomAlphanumeric(22))
       .toString();
   }
+
+  @Input
+  abstract Property<String> getVersion();
+
+  @Internal
+  abstract Property<Integer> getThreadsNumber();
 
   @TaskAction
   void downloadChromeDriver() throws IOException {
