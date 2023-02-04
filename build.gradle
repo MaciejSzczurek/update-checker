@@ -1,3 +1,4 @@
+import com.maciejszczurek.ChromeDriverExistPlugin
 import com.maciejszczurek.ChromeDriverPlugin
 
 plugins {
@@ -10,6 +11,7 @@ plugins {
 }
 
 apply plugin: ChromeDriverPlugin
+apply plugin: ChromeDriverExistPlugin
 
 group = 'com.maciejszczurek'
 version = '39.0.15'
