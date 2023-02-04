@@ -93,8 +93,10 @@ public class ChromeDriverHolder {
       new ChromeDriver(
         new ChromeDriverService.Builder().withSilent(true).build(),
         new ChromeOptions()
-          .setHeadless(true)
-          .addArguments("--disable-blink-features=AutomationControlled")
+          .addArguments(
+            "--disable-blink-features=AutomationControlled",
+            "--headless=new"
+          )
       );
 
     final var driverVersion =
