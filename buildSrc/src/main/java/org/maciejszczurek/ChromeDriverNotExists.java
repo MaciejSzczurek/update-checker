@@ -1,4 +1,4 @@
-package com.maciejszczurek;
+package org.maciejszczurek;
 
 public class ChromeDriverNotExists extends RuntimeException {
 

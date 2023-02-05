@@ -1,4 +1,4 @@
-package com.maciejszczurek;
+package org.maciejszczurek;
 
 import com.pivovarit.function.ThrowingSupplier;
 import com.pivovarit.function.exception.WrappedException;

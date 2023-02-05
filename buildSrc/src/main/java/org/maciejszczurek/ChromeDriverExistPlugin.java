@@ -1,4 +1,4 @@
-package com.maciejszczurek;
+package org.maciejszczurek;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

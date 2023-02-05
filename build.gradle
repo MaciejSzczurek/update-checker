@@ -1,5 +1,5 @@
-import com.maciejszczurek.ChromeDriverExistPlugin
-import com.maciejszczurek.ChromeDriverPlugin
+import org.maciejszczurek.ChromeDriverExistPlugin
+import org.maciejszczurek.ChromeDriverPlugin
 
 plugins {
     id 'org.springframework.boot' version '3.0.2'
