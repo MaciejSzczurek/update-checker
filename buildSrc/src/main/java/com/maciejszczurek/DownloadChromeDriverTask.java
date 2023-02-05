@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 import java.util.stream.LongStream;
 import java.util.zip.ZipFile;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.provider.Property;
@@ -29,20 +29,6 @@ import org.jetbrains.annotations.NotNull;
 
 @CacheableTask
 public abstract class DownloadChromeDriverTask extends DefaultTask {
-
-  private static final Pattern cdcPattern = Pattern.compile("cdc_.{22}");
-
-  @NotNull
-  private static String generateCdc() {
-    final var cdc = new StringBuilder(26);
-
-    return cdc
-      .append(RandomStringUtils.randomAlphabetic(2).toLowerCase())
-      .append(cdc.charAt(0))
-      .append('_')
-      .append(RandomStringUtils.randomAlphanumeric(22))
-      .toString();
-  }
 
   @Input
   abstract Property<String> getVersion();
@@ -100,6 +86,7 @@ public abstract class DownloadChromeDriverTask extends DefaultTask {
   }
 
   private void patchChrome(@NotNull Path chromeDriverPath) throws IOException {
+    final var windowPattern = Pattern.compile("\\{window.*;}");
     final var chromeDriverSize = chromeDriverPath.toFile().length();
     final var chromeDriverFragment = chromeDriverSize >> 4;
     final var newLinesPositionsFuture = new ArrayList<CompletableFuture<List<lineFragment>>>();
@@ -146,19 +133,30 @@ public abstract class DownloadChromeDriverTask extends DefaultTask {
       .toList();
 
     try (var file = new RandomAccessFile(chromeDriverPath.toFile(), "rw")) {
-      final var newCdc = generateCdc().getBytes(StandardCharsets.US_ASCII);
-
       for (lineFragment lineFragment : newLinesPositions) {
         file.seek(lineFragment.index);
 
         var line = new byte[(int) lineFragment.size];
         file.read(line);
 
-        final var matcher = cdcPattern.matcher(
+        final var matcher = windowPattern.matcher(
           new String(line, StandardCharsets.US_ASCII)
         );
         while (matcher.find()) {
-          System.arraycopy(newCdc, 0, line, matcher.start(), newCdc.length);
+          final var newWindowCodeBytes = StringUtils
+            .leftPad(
+              "{console.log('undetected chromedriver');}",
+              matcher.end() - matcher.start()
+            )
+            .getBytes(StandardCharsets.US_ASCII);
+
+          System.arraycopy(
+            newWindowCodeBytes,
+            0,
+            line,
+            matcher.start(),
+            newWindowCodeBytes.length
+          );
         }
 
         file.seek(lineFragment.index);
