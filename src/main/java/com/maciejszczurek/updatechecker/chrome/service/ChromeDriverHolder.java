@@ -94,7 +94,6 @@ public class ChromeDriverHolder {
         new ChromeDriverService.Builder().withSilent(true).build(),
         new ChromeOptions()
           .addArguments(
-            "--disable-blink-features=AutomationControlled",
             "--headless=new",
             "--window-size=1920,1080",
             "--start-maximized"
