@@ -314,12 +314,12 @@ public class UpdateCheckerTest {
 
   @Test
   void josm() throws IOException, InterruptedException {
-    checkUpdate(
-      new JosmUpdateChecker(
-        "https://josm.openstreetmap.de/wiki/Pl%3AWikiStart",
-        ""
-      )
+    final var updateChecker = new JosmUpdateChecker(
+      "https://josm.openstreetmap.de/wiki/Pl%3AWikiStart",
+      ""
     );
+    updateChecker.setChromeDriverHolder(chromeDriverFactory);
+    checkUpdate(updateChecker);
   }
 
   @Test
