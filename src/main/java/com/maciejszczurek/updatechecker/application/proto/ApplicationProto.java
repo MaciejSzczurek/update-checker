@@ -128,11 +128,6 @@ public final class ApplicationProto {
       return new Application();
     }
 
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.maciejszczurek.updatechecker.application.proto.ApplicationProto.internal_static_com_maciejszczurek_updatechecker_application_proto_Application_descriptor;
@@ -723,38 +718,6 @@ public final class ApplicationProto {
       }
 
       @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.maciejszczurek.updatechecker.application.proto.ApplicationProto.Application) {
           return mergeFrom((com.maciejszczurek.updatechecker.application.proto.ApplicationProto.Application)other);
@@ -898,7 +861,7 @@ public final class ApplicationProto {
        * @return This builder for chaining.
        */
       public Builder setId(long value) {
-        
+
         id_ = value;
         bitField0_ |= 0x00000001;
         onChanged();
@@ -1290,7 +1253,7 @@ public final class ApplicationProto {
        * @return This builder for chaining.
        */
       public Builder setIgnored(boolean value) {
-        
+
         ignored_ = value;
         bitField0_ |= 0x00000040;
         onChanged();
@@ -1330,7 +1293,7 @@ public final class ApplicationProto {
        * @return This builder for chaining.
        */
       public Builder setLastUpdate(long value) {
-        
+
         lastUpdate_ = value;
         bitField0_ |= 0x00000080;
         onChanged();
