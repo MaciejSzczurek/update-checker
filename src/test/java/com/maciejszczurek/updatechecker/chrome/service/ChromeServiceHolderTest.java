@@ -17,7 +17,7 @@ import org.springframework.core.io.DefaultResourceLoader;
 
 public class ChromeServiceHolderTest {
 
-  public static final String CHROME_DRIVER_VERSION = "107.0.5304.62";
+  public static final String CHROME_DRIVER_VERSION = "111.0.5563.64";
   private static ChromeDriverHolder chromeService;
 
   @BeforeAll
