@@ -2,14 +2,17 @@ package com.maciejszczurek.updatechecker.checker;
 
 import static com.maciejszczurek.updatechecker.application.model.ApplicationType.NSANE_DOWN;
 
+import com.maciejszczurek.updatechecker.application.NewVersionNotFoundException;
 import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import com.maciejszczurek.updatechecker.cookie.service.CookieHolder;
 import com.maciejszczurek.updatechecker.http.HttpBuilderFactory;
 import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.http.HttpResponse;
+import java.util.Optional;
 import lombok.Setter;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,10 +60,15 @@ public class NsaneDownUpdateChecker
     }
 
     setNewVersion(
-      Jsoup
-        .parse(response.body())
-        .select("#ipsLayout_mainArea span.ipsContained")
-        .text()
+      Optional
+        .ofNullable(
+          Jsoup
+            .parse(response.body())
+            .selectFirst("#ipsLayout_mainArea span.ipsContained")
+        )
+        .map(Element::text)
+        .orElseThrow(() -> new NewVersionNotFoundException("Selector is empty.")
+        )
         .replace(name + " ", "")
     );
   }

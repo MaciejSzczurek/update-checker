@@ -939,6 +939,7 @@ public class UpdateCheckerTest {
       "https://nsaneforums.com/frontpage/internet/web-browsers/mozilla-firefox-browser",
       ""
     );
+    nsaneDownUpdateChecker.setName("Mozilla Firefox Browser");
     nsaneDownUpdateChecker.setCookieHolder(cookieHolder);
     nsaneDownUpdateChecker.setCookieHandler(cookieManager);
     checkUpdate(nsaneDownUpdateChecker);
