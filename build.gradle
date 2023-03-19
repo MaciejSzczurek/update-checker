@@ -71,6 +71,8 @@ dependencies {
     implementation "org.seleniumhq.selenium:selenium-chrome-driver:4.8.1"
     implementation "org.seleniumhq.selenium:selenium-chromium-driver:4.8.1"
     implementation "org.seleniumhq.selenium:selenium-support:4.8.1"
+    implementation "org.seleniumhq.selenium:selenium-java:4.8.1"
+    implementation "org.seleniumhq.selenium:selenium-http-jdk-client:4.8.1"
     implementation "com.github.mouse0w0:darculafx:9.0.0"
 //    implementation "org.jfxtras:jmetro:11.6.15"
     implementation "org.jsoup:jsoup:1.15.4"
