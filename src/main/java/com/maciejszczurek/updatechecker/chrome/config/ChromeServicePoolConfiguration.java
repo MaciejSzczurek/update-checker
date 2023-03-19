@@ -6,6 +6,7 @@ import org.springframework.aop.target.CommonsPool2TargetSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 @RequiredArgsConstructor
@@ -19,13 +20,14 @@ public class ChromeServicePoolConfiguration {
     final var targetSource = new CommonsPool2TargetSource();
 
     targetSource.setMaxSize(poolSize);
-    targetSource.setTargetBeanName("chromeDriverHolder");
+    targetSource.setTargetBeanName("chromeDriverHolderTarget");
 
     return targetSource;
   }
 
   @Bean
-  public ProxyFactoryBean chromeDriverFactory() {
+  @Primary
+  public ProxyFactoryBean chromeDriverHolder() {
     final var factoryBean = new ProxyFactoryBean();
 
     factoryBean.setTargetSource(chromeTargetPool());

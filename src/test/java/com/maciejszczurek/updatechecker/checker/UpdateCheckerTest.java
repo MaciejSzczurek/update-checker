@@ -27,7 +27,6 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -42,7 +41,6 @@ public class UpdateCheckerTest {
   private static final CookieManager cookieManager = new CookieManager();
   private static ChromeDriverHolder chromeService;
   private static CookieHolder cookieHolder;
-  private static ProxyFactoryBean chromeDriverFactory;
 
   private static void checkUpdate(@NotNull final UpdateChecker updateChecker)
     throws IOException, InterruptedException {
@@ -74,7 +72,6 @@ public class UpdateCheckerTest {
   public static void beforeClass() throws Exception {
     UserAgents.generateUserAgent();
 
-    chromeDriverFactory = mock(ProxyFactoryBean.class);
     final var optionService = mock(OptionService.class);
     final var resourceLoader = new DefaultResourceLoader();
 
@@ -86,12 +83,10 @@ public class UpdateCheckerTest {
 
     cookieHolder =
       new CookieHolder(
-        chromeDriverFactory,
+        chromeService,
         cookieManager,
         mock(PlatformTransactionManager.class)
       );
-
-    when(chromeDriverFactory.getObject()).thenReturn(chromeService);
   }
 
   @AfterAll
@@ -318,7 +313,7 @@ public class UpdateCheckerTest {
       "https://josm.openstreetmap.de/wiki/Pl%3AWikiStart",
       ""
     );
-    updateChecker.setChromeDriverHolder(chromeDriverFactory);
+    updateChecker.setChromeDriverHolder(chromeService);
     checkUpdate(updateChecker);
   }
 
@@ -391,7 +386,7 @@ public class UpdateCheckerTest {
       "https://app-connect.volkswagen.com/mapupdates/car/",
       ""
     );
-    updateChecker.setChromeDriverFactory(chromeDriverFactory);
+    updateChecker.setChromeDriverHolder(chromeService);
     checkUpdate(updateChecker);
   }
 
@@ -970,7 +965,7 @@ public class UpdateCheckerTest {
       "https://www.promods.net/compat.php",
       ""
     );
-    updateChecker.setChromeDriverFactory(chromeDriverFactory);
+    updateChecker.setChromeDriverHolder(chromeService);
     checkUpdate(updateChecker);
   }
 
@@ -1048,7 +1043,7 @@ public class UpdateCheckerTest {
       "https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyodbc",
       ""
     );
-    updateChecker.setChromeDriverFactory(chromeDriverFactory);
+    updateChecker.setChromeDriverHolder(chromeService);
     checkUpdate(updateChecker);
   }
 
