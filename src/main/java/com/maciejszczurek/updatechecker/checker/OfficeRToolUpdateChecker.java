@@ -6,12 +6,11 @@ import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import java.io.IOException;
 import java.net.CookieManager;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @ApplicationType(OFFICE_R_TOOL)
 public class OfficeRToolUpdateChecker extends UpdateChecker {
 
-  @Setter(onMethod_ = @Autowired)
+  @Setter
   private CookieManager cookieManager;
 
   public OfficeRToolUpdateChecker(

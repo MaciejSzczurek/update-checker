@@ -13,7 +13,6 @@ import java.util.Optional;
 import lombok.Setter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @ApplicationType(NSANE_DOWN)
@@ -24,10 +23,10 @@ public class NsaneDownUpdateChecker
   @Setter
   private String name;
 
-  @Setter(onMethod_ = @Autowired)
+  @Setter
   private CookieHolder cookieHolder;
 
-  @Setter(onMethod_ = @Autowired)
+  @Setter
   private CookieHandler cookieHandler;
 
   public NsaneDownUpdateChecker(

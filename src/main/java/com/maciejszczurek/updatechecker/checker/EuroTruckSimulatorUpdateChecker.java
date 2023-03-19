@@ -10,16 +10,15 @@ import java.net.CookieHandler;
 import java.net.http.HttpResponse;
 import lombok.Setter;
 import org.jsoup.Jsoup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @ApplicationType(EURO_TRUCK_SIMULATOR)
 public class EuroTruckSimulatorUpdateChecker extends UpdateChecker {
 
-  @Setter(onMethod_ = @Autowired)
+  @Setter
   private CookieHolder cookieHolder;
 
-  @Setter(onMethod_ = @Autowired)
+  @Setter
   private CookieHandler cookieHandler;
 
   public EuroTruckSimulatorUpdateChecker(
