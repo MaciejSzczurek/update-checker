@@ -64,6 +64,7 @@ public enum ApplicationType {
   PHP,
   PIP,
   POLAND_REBUILDING,
+  POSTGRES,
   PROMODS,
   PUTTY,
   PYTHON,

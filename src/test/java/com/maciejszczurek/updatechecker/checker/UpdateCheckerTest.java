@@ -829,15 +829,17 @@ public class UpdateCheckerTest {
 
   @Test
   void githubRelease() throws IOException, InterruptedException {
-    final Consumer<UpdateChecker> doesNotStartWith = (final UpdateChecker updateChecker) ->
-      assertThat(updateChecker.getNewVersion())
-        .doesNotStartWith("v")
-        .doesNotStartWith(".");
+    final Consumer<UpdateChecker> doesNotStartWith =
+      (final UpdateChecker updateChecker) ->
+        assertThat(updateChecker.getNewVersion())
+          .doesNotStartWith("v")
+          .doesNotStartWith(".");
 
-    GithubReleaseUpdateChecker githubReleaseUpdateChecker = new GithubReleaseUpdateChecker(
-      "https://github.com/OpenVPN/easy-rsa/releases",
-      ""
-    );
+    GithubReleaseUpdateChecker githubReleaseUpdateChecker =
+      new GithubReleaseUpdateChecker(
+        "https://github.com/OpenVPN/easy-rsa/releases",
+        ""
+      );
     checkUpdate(githubReleaseUpdateChecker);
     doesNotStartWith.accept(githubReleaseUpdateChecker);
 
@@ -1062,6 +1064,16 @@ public class UpdateCheckerTest {
     checkUpdate(
       new WordpressPhpUpdateChecker(
         "https://raw.githubusercontent.com/docker-library/wordpress/master/generate-stackbrew-library.sh",
+        ""
+      )
+    );
+  }
+
+  @Test
+  void postgres() throws IOException, InterruptedException {
+    checkUpdate(
+      new PostgresUpdateChecker(
+        "https://www.enterprisedb.com/downloads/postgres-postgresql-downloads",
         ""
       )
     );
