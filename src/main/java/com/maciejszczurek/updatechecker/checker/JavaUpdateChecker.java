@@ -40,6 +40,7 @@ public class JavaUpdateChecker extends UpdateChecker {
         )
         .text()
         .replace("Java SE Development Kit ", "")
+        .replace("JDK Development Kit ", "")
         .replace(" downloads", "")
     );
   }
