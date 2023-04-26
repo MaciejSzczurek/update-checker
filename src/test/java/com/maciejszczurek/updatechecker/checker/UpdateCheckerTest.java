@@ -500,11 +500,6 @@ public class UpdateCheckerTest {
   }
 
   @Test
-  void rufus() throws IOException, InterruptedException {
-    checkUpdate(new RufusUpdateChecker("http://rufus.ie/pl_PL.html", ""));
-  }
-
-  @Test
   void mariaDb() throws IOException, InterruptedException {
     checkUpdate(new MariaDbUpdateChecker("https://downloads.mariadb.org/", ""));
   }
