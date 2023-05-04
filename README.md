@@ -6,7 +6,7 @@ repositories. Spring Framework and JavaFX were used to create the application.
 ## Requirements
 
 - Java 20
-- Google Chrome 112
+- Google Chrome 113
 
 ## Installation
 

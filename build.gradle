@@ -25,7 +25,7 @@ repositories {
 }
 
 downloadChromeDriver {
-    version = '112.0.5615.49'
+    version = '113.0.5672.63'
 }
 
 javafx {
