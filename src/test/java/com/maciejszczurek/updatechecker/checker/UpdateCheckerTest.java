@@ -532,7 +532,7 @@ public class UpdateCheckerTest {
   void nvidiaDriver() throws IOException, InterruptedException {
     checkUpdate(
       new NvidiaDriverUpdateChecker(
-        "https://www.nvidia.com/Download/processDriver.aspx?psid=101&pfid=815&rpf=1&osid=57&lid=1&lang=pl-pl&ctk=0&dtid=1&dtcid=1",
+        "https://www.nvidia.pl/Download/processDriver.aspx?psid=101&pfid=815&rpf=1&osid=57&lid=14&lang=pl&ctk=0&dtid=1&dtcid=1",
         ""
       )
     );

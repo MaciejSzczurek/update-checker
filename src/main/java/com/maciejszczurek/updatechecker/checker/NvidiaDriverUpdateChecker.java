@@ -18,7 +18,9 @@ public class NvidiaDriverUpdateChecker extends UpdateChecker {
   @Override
   public void checkUpdate() throws IOException {
     setNewVersion(
-      getJsoupConnectionInstance(getJsoupConnectionInstance().get().text())
+      getJsoupConnectionInstance(
+        "https:%s".formatted(getJsoupConnectionInstance().get().text())
+      )
         .get()
         .select("#tdVersion")
         .text()
