@@ -2,12 +2,10 @@ package com.maciejszczurek.updatechecker.checker;
 
 import static com.maciejszczurek.updatechecker.application.model.ApplicationType.CHROME_DRIVER;
 
-import com.maciejszczurek.updatechecker.application.NewVersionNotFoundException;
 import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
-import com.maciejszczurek.updatechecker.checker.util.UserAgentGeneratorUtils;
-import com.pivovarit.function.ThrowingPredicate;
+import com.maciejszczurek.updatechecker.util.UpdateCheckerUtils;
 import java.io.IOException;
-import org.jsoup.nodes.Element;
+import java.net.URI;
 
 @ApplicationType(CHROME_DRIVER)
 public class ChromeDriverUpdateChecker extends UpdateChecker {
@@ -22,26 +20,13 @@ public class ChromeDriverUpdateChecker extends UpdateChecker {
   @Override
   public void checkUpdate() throws IOException {
     setNewVersion(
-      getJsoupConnectionInstance()
-        .get()
-        .select("a.XqQF9c")
-        .stream()
-        .map(Element::text)
-        .filter(element -> element.startsWith("ChromeDriver "))
-        .map(element -> element.replace("ChromeDriver ", ""))
-        .filter(
-          ThrowingPredicate.unchecked(element ->
-            element
-              .substring(0, element.indexOf('.'))
-              .equals(UserAgentGeneratorUtils.getChromeMajorVersion())
-          )
-        )
-        .findFirst()
-        .orElseThrow(() ->
-          new NewVersionNotFoundException(
-            "Cannot find new version of Chrome Driver."
-          )
-        )
+      UpdateCheckerUtils
+        .getObjectMapper()
+        .readTree(URI.create(getSiteUrl()).toURL())
+        .get("channels")
+        .get("Stable")
+        .get("version")
+        .textValue()
     );
   }
 }

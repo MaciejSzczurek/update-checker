@@ -941,7 +941,7 @@ public class UpdateCheckerTest {
   void chromeDriver() throws IOException, InterruptedException {
     checkUpdate(
       new ChromeDriverUpdateChecker(
-        "https://sites.google.com/chromium.org/driver/downloads",
+        "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions.json",
         ""
       )
     );
