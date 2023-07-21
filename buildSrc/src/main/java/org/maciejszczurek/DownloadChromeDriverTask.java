@@ -4,7 +4,7 @@ import com.pivovarit.function.ThrowingSupplier;
 import com.pivovarit.function.exception.WrappedException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.net.URL;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -42,9 +42,12 @@ public abstract class DownloadChromeDriverTask extends DefaultTask {
     if (SystemUtils.IS_OS_LINUX) {
       os = "linux64";
     } else if (SystemUtils.IS_OS_MAC) {
-      os = "mac64" + (SystemUtils.OS_ARCH.equals("arm64") ? "_m1" : "");
+      os =
+        "mac-%s".formatted(
+            SystemUtils.OS_ARCH.equals("arm64") ? "arm64" : "x64"
+          );
     } else {
-      os = "win32";
+      os = "win64";
     }
 
     final Path chromeDriverPath;
@@ -53,26 +56,40 @@ public abstract class DownloadChromeDriverTask extends DefaultTask {
       .resolve("chromedriver.zip")
       .toFile();
     FileUtils.copyURLToFile(
-      new URL(
-        "https://chromedriver.storage.googleapis.com/%s/chromedriver_%s.zip".formatted(
-            getVersion().get(),
-            os
-          )
-      ),
+      URI
+        .create(
+          "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/%s/%s/chromedriver-%s.zip".formatted(
+              getVersion().get(),
+              os,
+              os
+            )
+        )
+        .toURL(),
       tempFile
     );
 
     try (var zipFile = new ZipFile(tempFile)) {
       final var zipEntry = zipFile
         .stream()
-        .filter(zipEntry1 -> zipEntry1.getName().startsWith("chromedriver"))
+        .filter(zipEntry1 ->
+          zipEntry1
+            .getName()
+            .startsWith("chromedriver", zipEntry1.getName().indexOf('/') + 1)
+        )
         .findFirst()
         .orElseThrow();
+      final var entryName = zipEntry.getName();
       chromeDriverPath =
         getProject()
           .getProjectDir()
           .toPath()
-          .resolve(Path.of("libs", "chromedriver", zipEntry.getName()));
+          .resolve(
+            Path.of(
+              "libs",
+              "chromedriver",
+              entryName.substring(entryName.indexOf('/') + 1)
+            )
+          );
 
       FileUtils.copyInputStreamToFile(
         zipFile.getInputStream(zipEntry),
@@ -89,7 +106,8 @@ public abstract class DownloadChromeDriverTask extends DefaultTask {
     final var windowPattern = Pattern.compile("\\{window.*;}");
     final var chromeDriverSize = chromeDriverPath.toFile().length();
     final var chromeDriverFragment = chromeDriverSize >> 4;
-    final var newLinesPositionsFuture = new ArrayList<CompletableFuture<List<lineFragment>>>();
+    final var newLinesPositionsFuture =
+      new ArrayList<CompletableFuture<List<lineFragment>>>();
     try (
       var executor = Executors.newFixedThreadPool(
         getThreadsNumber()
