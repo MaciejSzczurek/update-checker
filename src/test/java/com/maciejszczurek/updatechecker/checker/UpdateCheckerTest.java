@@ -334,9 +334,7 @@ public class UpdateCheckerTest {
 
   @Test
   void nodejs() throws IOException, InterruptedException {
-    checkUpdate(
-      new NodejsUpdateChecker("https://nodejs.org/node-releases-data.json", "")
-    );
+    checkUpdate(new NodejsUpdateChecker("https://nodejs.org/en", ""));
   }
 
   @Test
