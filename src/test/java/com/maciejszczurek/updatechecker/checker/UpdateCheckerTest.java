@@ -223,7 +223,7 @@ public class UpdateCheckerTest {
   void ccleaner() throws IOException, InterruptedException {
     checkUpdate(
       new CCleanerUpdateChecker(
-        "https://www.ccleaner.com/ccleaner/download",
+        "https://www.ccleaner.com/pl-pl/ccleaner/version-history",
         ""
       )
     );

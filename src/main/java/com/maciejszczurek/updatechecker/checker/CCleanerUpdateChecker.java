@@ -21,10 +21,10 @@ public class CCleanerUpdateChecker extends UpdateChecker {
       getJsoupConnectionInstance()
         .get()
         .selectFirst(
-          "div.band.br.bl.pricing-table-footer__aside div.indent strong"
+          "span[data-qa-id='version-history__latest-version']"
         )
         .text()
-        .replace("CCleaner v", "")
+        .replace("v", "")
     );
   }
 }
