@@ -2,8 +2,10 @@ package com.maciejszczurek.updatechecker.checker;
 
 import static com.maciejszczurek.updatechecker.application.model.ApplicationType.TC_UP;
 
+import com.maciejszczurek.updatechecker.application.NewVersionNotFoundException;
 import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import java.io.IOException;
+import java.util.Optional;
 
 @ApplicationType(TC_UP)
 public class TcUpUpdateChecker extends UpdateChecker {
@@ -15,10 +17,18 @@ public class TcUpUpdateChecker extends UpdateChecker {
   @Override
   public void checkUpdate() throws IOException {
     setNewVersion(
-      getJsoupConnectionInstance()
-        .get()
-        .select(
-          "#inner_content-33-11 > p:nth-child(6) > mark.has-inline-color.has-luminous-vivid-amber-color"
+      Optional
+        .ofNullable(
+          getJsoupConnectionInstance()
+            .get()
+            .selectFirst(
+              "#inner_content-33-11 mark.has-inline-color.has-luminous-vivid-amber-color"
+            )
+        )
+        .orElseThrow(() ->
+          new NewVersionNotFoundException(
+            "Not found selector with version of TC UP."
+          )
         )
         .text()
     );
