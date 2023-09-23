@@ -29,7 +29,7 @@ downloadChromeDriver {
 }
 
 javafx {
-    version = JavaVersion.VERSION_20
+    version = JavaVersion.VERSION_21
     modules = ['javafx.controls', 'javafx.fxml']
 }
 
