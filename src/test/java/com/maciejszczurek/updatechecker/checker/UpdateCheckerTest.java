@@ -1071,4 +1071,11 @@ public class UpdateCheckerTest {
       )
     );
   }
+
+  @Test
+  void openVPN() throws IOException, InterruptedException {
+    checkUpdate(
+      new OpenVPNUpdateChecker("https://openvpn.net/community-downloads/", "")
+    );
+  }
 }

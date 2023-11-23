@@ -58,6 +58,7 @@ public enum ApplicationType {
   NSANE_DOWN,
   NVIDIA_DRIVER,
   OFFICE_R_TOOL,
+  OPEN_VPN,
   OSMAND_MAPS,
   PACKAGIST,
   PECL,
