@@ -401,7 +401,7 @@ public class UpdateCheckerTest {
   @Test
   void xnView() throws IOException, InterruptedException {
     checkUpdate(
-      new XnViewUpdateChecker("https://www.xnview.com/en/xnview/", "")
+      new XnViewUpdateChecker("https://www.xnview.com/en/xnviewmp/", "")
     );
   }
 

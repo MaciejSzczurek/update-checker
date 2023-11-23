@@ -22,7 +22,7 @@ public class XnViewUpdateChecker extends UpdateChecker {
         .get()
         .select("#downloads > p.h5.mt-3 > strong")
         .html()
-        .replace("XnView ", "")
+        .replace("XnView MP ", "")
     );
   }
 }
