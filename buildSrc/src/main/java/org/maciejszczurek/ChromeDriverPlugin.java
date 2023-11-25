@@ -10,6 +10,11 @@ public class ChromeDriverPlugin implements Plugin<Project> {
   public void apply(@NotNull final Project project) {
     project
       .getTasks()
-      .create("downloadChromeDriver", DownloadChromeDriverTask.class);
+      .getByName("processResources")
+      .dependsOn(
+        project
+          .getTasks()
+          .create("downloadChromeDriver", DownloadChromeDriverTask.class)
+      );
   }
 }

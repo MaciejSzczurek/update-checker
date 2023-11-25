@@ -85,8 +85,9 @@ public abstract class DownloadChromeDriverTask extends DefaultTask {
           .toPath()
           .resolve(
             Path.of(
-              "libs",
-              "chromedriver",
+              "build",
+              "resources",
+              "main",
               entryName.substring(entryName.indexOf('/') + 1)
             )
           );
@@ -106,8 +107,9 @@ public abstract class DownloadChromeDriverTask extends DefaultTask {
     final var windowPattern = Pattern.compile("\\{window.*;}");
     final var chromeDriverSize = chromeDriverPath.toFile().length();
     final var chromeDriverFragment = chromeDriverSize >> 4;
-    final var newLinesPositionsFuture =
-      new ArrayList<CompletableFuture<List<lineFragment>>>();
+    final var newLinesPositionsFuture = new ArrayList<
+      CompletableFuture<List<LineFragment>>
+    >();
     try (
       var executor = Executors.newFixedThreadPool(
         getThreadsNumber()
@@ -151,7 +153,7 @@ public abstract class DownloadChromeDriverTask extends DefaultTask {
       .toList();
 
     try (var file = new RandomAccessFile(chromeDriverPath.toFile(), "rw")) {
-      for (lineFragment lineFragment : newLinesPositions) {
+      for (LineFragment lineFragment : newLinesPositions) {
         file.seek(lineFragment.index);
 
         var line = new byte[(int) lineFragment.size];
@@ -184,12 +186,12 @@ public abstract class DownloadChromeDriverTask extends DefaultTask {
   }
 
   @NotNull
-  private List<lineFragment> getLineFragments(
+  private List<LineFragment> getLineFragments(
     final Path chromeDriverPath,
     final long start,
     final long end
   ) throws IOException {
-    final var positions = new ArrayList<lineFragment>();
+    final var positions = new ArrayList<LineFragment>();
     try (var file = new RandomAccessFile(chromeDriverPath.toFile(), "r")) {
       file.seek(start);
       String line;
@@ -198,7 +200,7 @@ public abstract class DownloadChromeDriverTask extends DefaultTask {
         if (line.contains("cdc_")) {
           var lineBytesLength = line.getBytes(StandardCharsets.US_ASCII).length;
           positions.add(
-            new lineFragment(
+            new LineFragment(
               file.getFilePointer() - lineBytesLength - 1,
               lineBytesLength
             )
@@ -209,5 +211,5 @@ public abstract class DownloadChromeDriverTask extends DefaultTask {
     return positions;
   }
 
-  private record lineFragment(long index, long size) {}
+  private record LineFragment(long index, long size) {}
 }

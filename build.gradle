@@ -33,14 +33,6 @@ javafx {
     modules = ['javafx.controls', 'javafx.fxml']
 }
 
-sourceSets {
-    main {
-        resources {
-            srcDirs += ['libs/chromedriver']
-        }
-    }
-}
-
 pmd {
     consoleOutput = true
     toolVersion = '6.55.0'

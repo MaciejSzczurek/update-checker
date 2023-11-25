@@ -22,10 +22,11 @@ public class ChromeDriverExistPlugin implements Plugin<Project> {
             !Files.exists(
               task
                 .getProject()
-                .getBuildDir()
+                .getProjectDir()
                 .toPath()
                 .resolve(
                   Path.of(
+                    "build",
                     "resources",
                     "main",
                     "chromedriver%s".formatted(
