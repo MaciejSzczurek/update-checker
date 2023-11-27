@@ -68,7 +68,7 @@ dependencies {
     implementation "org.seleniumhq.selenium:selenium-http-jdk-client:4.13.0"
     implementation "com.github.mouse0w0:darculafx:9.0.0"
 //    implementation "org.jfxtras:jmetro:11.6.15"
-    implementation "org.jsoup:jsoup:1.16.2"
+    implementation "org.jsoup:jsoup:1.17.1"
     implementation 'org.jetbrains:annotations:24.1.0'
     implementation "org.apache.commons:commons-lang3:3.14.0"
     implementation "org.apache.commons:commons-pool2:2.12.0"
