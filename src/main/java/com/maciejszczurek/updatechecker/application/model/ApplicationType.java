@@ -24,6 +24,7 @@ public enum ApplicationType {
   FRESH_TOMATO,
   FUSE_MACOS,
   GCAM,
+  GITEA_FILE,
   GITHUB_DOCKER,
   GITHUB_FILE,
   GITHUB_RELEASE,

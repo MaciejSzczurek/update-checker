@@ -1078,4 +1078,20 @@ public class UpdateCheckerTest {
       new OpenVPNUpdateChecker("https://openvpn.net/community-downloads/", "")
     );
   }
+
+  @Test
+  void giteaFile() throws IOException, InterruptedException {
+    checkUpdate(
+      new GiteaFileUpdateChecker(
+        "https://gitea.com/gitea/blog/src/branch/main/package.json",
+        ""
+      )
+    );
+    checkUpdate(
+      new GiteaFileUpdateChecker(
+        "https://gitea.com/gitea/blog/src/branch/main/content/post/authors.yml",
+        ""
+      )
+    );
+  }
 }
