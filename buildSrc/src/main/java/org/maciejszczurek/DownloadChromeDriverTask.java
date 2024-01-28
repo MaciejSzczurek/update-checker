@@ -24,6 +24,7 @@ import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.CacheableTask;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Internal;
+import org.gradle.api.tasks.SourceSetContainer;
 import org.gradle.api.tasks.TaskAction;
 import org.jetbrains.annotations.NotNull;
 
@@ -51,10 +52,13 @@ public abstract class DownloadChromeDriverTask extends DefaultTask {
     }
 
     final Path chromeDriverPath;
-    final var tempFile = getTemporaryDir()
+    var chromeDriverZip = getTemporaryDir()
       .toPath()
       .resolve("chromedriver.zip")
       .toFile();
+    var chromeDriverResourcePath = getTemporaryDir()
+      .toPath()
+      .resolve("driverResource");
     FileUtils.copyURLToFile(
       URI
         .create(
@@ -65,10 +69,10 @@ public abstract class DownloadChromeDriverTask extends DefaultTask {
             )
         )
         .toURL(),
-      tempFile
+      chromeDriverZip
     );
 
-    try (var zipFile = new ZipFile(tempFile)) {
+    try (var zipFile = new ZipFile(chromeDriverZip)) {
       final var zipEntry = zipFile
         .stream()
         .filter(zipEntry1 ->
@@ -80,17 +84,9 @@ public abstract class DownloadChromeDriverTask extends DefaultTask {
         .orElseThrow();
       final var entryName = zipEntry.getName();
       chromeDriverPath =
-        getProject()
-          .getProjectDir()
-          .toPath()
-          .resolve(
-            Path.of(
-              "build",
-              "resources",
-              "main",
-              entryName.substring(entryName.indexOf('/') + 1)
-            )
-          );
+        chromeDriverResourcePath.resolve(
+          entryName.substring(entryName.indexOf('/') + 1)
+        );
 
       FileUtils.copyInputStreamToFile(
         zipFile.getInputStream(zipEntry),
@@ -98,7 +94,13 @@ public abstract class DownloadChromeDriverTask extends DefaultTask {
       );
     }
 
-    Files.delete(tempFile.toPath());
+    Files.delete(chromeDriverZip.toPath());
+    getProject()
+      .getExtensions()
+      .getByType(SourceSetContainer.class)
+      .getByName("main")
+      .getResources()
+      .srcDir(chromeDriverResourcePath);
 
     patchChrome(chromeDriverPath);
   }

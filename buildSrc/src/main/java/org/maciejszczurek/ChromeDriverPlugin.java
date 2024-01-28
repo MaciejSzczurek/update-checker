@@ -10,7 +10,7 @@ public class ChromeDriverPlugin implements Plugin<Project> {
   public void apply(@NotNull final Project project) {
     project
       .getTasks()
-      .getByName("processResources")
+      .getByName("classes")
       .dependsOn(
         project
           .getTasks()
