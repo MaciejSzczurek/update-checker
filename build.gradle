@@ -1,4 +1,3 @@
-import org.maciejszczurek.ChromeDriverExistPlugin
 import org.maciejszczurek.ChromeDriverPlugin
 
 plugins {
@@ -11,7 +10,6 @@ plugins {
 }
 
 apply plugin: ChromeDriverPlugin
-apply plugin: ChromeDriverExistPlugin
 
 group = 'com.maciejszczurek'
 version = '41.2.0'
