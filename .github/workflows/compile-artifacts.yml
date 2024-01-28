@@ -1,0 +1,37 @@
+on:
+  workflow_dispatch:
+  push:
+    tags: ['*']
+
+permissions:
+  contents: read
+
+jobs:
+  build_jar:
+    strategy:
+      matrix:
+        include:
+          - os: 'ubuntu-latest'
+            name: 'linux'
+          - os: 'windows-latest'
+            name: 'win'
+          - os: 'macos-latest'
+            name: 'macos'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+      - name: Build jar
+        run: gradle bootJar
+      - name: Upload Jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: update-checker-${{ matrix.name }}
+          path: build/libs/update-checker-*.jar
