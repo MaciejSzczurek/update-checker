@@ -4,10 +4,10 @@ on:
     tags: ['*']
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  build_jar:
+  build-jar:
     strategy:
       matrix:
         include:
@@ -35,3 +35,17 @@ jobs:
         with:
           name: update-checker-${{ matrix.name }}
           path: build/libs/update-checker-*.jar
+  create-release:
+    needs: [build-jar]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: update-checker-*
+          path: assets
+          merge-multiple: true
+      - name: Create release draft
+        uses: MaciejSzczurek/release-action@main
+        with:
+          assets-directory: assets
