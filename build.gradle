@@ -5,6 +5,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.4'
     id "com.github.spotbugs" version '6.0.7'
     id "org.openjfx.javafxplugin" version "0.1.0"
+    id "com.google.osdetector" version "1.7.3"
     id 'java'
     id 'pmd'
 }
@@ -20,6 +21,10 @@ repositories {
     maven { url 'https://repo.spring.io/snapshot' }
     maven { url 'https://repo.spring.io/milestone' }
     maven { url 'https://projectlombok.org/edge-releases' }
+}
+
+bootJar {
+    archiveFileName = "${archiveBaseName.get()}-${project.version}-${osdetector.os}.jar"
 }
 
 downloadChromeDriver {
