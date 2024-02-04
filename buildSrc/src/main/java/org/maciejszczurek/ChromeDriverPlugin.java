@@ -2,6 +2,7 @@ package org.maciejszczurek;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.plugins.BasePlugin;
 import org.jetbrains.annotations.NotNull;
 
 public class ChromeDriverPlugin implements Plugin<Project> {
@@ -14,7 +15,16 @@ public class ChromeDriverPlugin implements Plugin<Project> {
       .dependsOn(
         project
           .getTasks()
-          .create("downloadChromeDriver", DownloadChromeDriverTask.class)
+          .create(
+            "downloadChromeDriver",
+            DownloadChromeDriverTask.class,
+            configuration -> {
+              configuration.setDescription(
+                "Download and make a patch for the chrome driver executable."
+              );
+              configuration.setGroup(BasePlugin.BUILD_GROUP);
+            }
+          )
       );
   }
 }
