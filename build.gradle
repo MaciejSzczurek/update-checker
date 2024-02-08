@@ -92,7 +92,7 @@ test {
 tasks.register('compileAndMove') {
     dependsOn bootJar
     doLast {
-        ant.move file: "${projectDir}/build/libs/update-checker-${version}.jar",
+        ant.move file: "${projectDir}/build/libs/${bootJar.archiveFileName.get()}",
                 tofile: "${moveDir}/update-checker.jar"
     }
 }
