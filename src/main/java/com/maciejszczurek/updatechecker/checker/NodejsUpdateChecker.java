@@ -21,7 +21,7 @@ public class NodejsUpdateChecker extends UpdateChecker {
       getJsoupConnectionInstance()
         .get()
         .select("a[data-version]")
-        .get(1)
+        .getFirst()
         .attr("data-version")
         .substring(1)
     );
