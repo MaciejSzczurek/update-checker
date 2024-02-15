@@ -62,7 +62,7 @@ public abstract class DownloadChromeDriverTask extends DefaultTask {
     FileUtils.copyURLToFile(
       URI
         .create(
-          "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/%s/%s/chromedriver-%s.zip".formatted(
+          "https://storage.googleapis.com/chrome-for-testing-public/%s/%s/chromedriver-%s.zip".formatted(
               getVersion().get(),
               os,
               os
