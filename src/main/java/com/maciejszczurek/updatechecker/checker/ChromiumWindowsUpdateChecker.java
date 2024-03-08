@@ -5,8 +5,8 @@ import static com.maciejszczurek.updatechecker.application.model.ApplicationType
 import com.maciejszczurek.updatechecker.application.NewVersionNotFoundException;
 import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import com.maciejszczurek.updatechecker.util.UpdateCheckerUtils;
+import com.maciejszczurek.updatechecker.util.UrlBuilder;
 import java.io.IOException;
-import java.net.URL;
 import java.util.stream.Stream;
 
 @ApplicationType(CHROMIUM_WINDOWS)
@@ -23,11 +23,11 @@ public class ChromiumWindowsUpdateChecker extends UpdateChecker {
   public void checkUpdate() throws IOException, InterruptedException {
     setNewVersion(
       UpdateCheckerUtils
-        .readTree(new URL(getSiteUrl()))
+        .readTree(UrlBuilder.build(getSiteUrl()))
         .get("chromium")
         .get(
           Stream
-            .of(new URL(getSiteUrl()).getQuery().split("&"))
+            .of(UrlBuilder.build(getSiteUrl()).getQuery().split("&"))
             .map(param -> param.split("="))
             .filter(param -> param.length == 2)
             .filter(param -> param[0].equals("os"))

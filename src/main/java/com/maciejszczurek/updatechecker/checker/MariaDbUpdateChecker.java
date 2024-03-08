@@ -6,8 +6,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.maciejszczurek.updatechecker.application.NewVersionNotFoundException;
 import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import com.maciejszczurek.updatechecker.util.UpdateCheckerUtils;
+import com.maciejszczurek.updatechecker.util.UrlBuilder;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +28,7 @@ public class MariaDbUpdateChecker extends UpdateChecker {
     setNewVersion(
       (String) UpdateCheckerUtils
         .readValue(
-          new URL(
+          UrlBuilder.build(
             "https://downloads.mariadb.org/rest-api/mariadb/all-releases/?olderReleases=false"
           ),
           TYPE_REFERENCE

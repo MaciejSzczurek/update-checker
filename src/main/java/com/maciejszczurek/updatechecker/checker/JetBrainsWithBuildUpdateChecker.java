@@ -5,8 +5,8 @@ import static com.maciejszczurek.updatechecker.application.model.ApplicationType
 import com.fasterxml.jackson.databind.JsonNode;
 import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import com.maciejszczurek.updatechecker.util.UpdateCheckerUtils;
+import com.maciejszczurek.updatechecker.util.UrlBuilder;
 import java.io.IOException;
-import java.net.URL;
 
 @ApplicationType(JETBRAINS_WITH_BUILD)
 public class JetBrainsWithBuildUpdateChecker extends UpdateChecker {
@@ -33,7 +33,7 @@ public class JetBrainsWithBuildUpdateChecker extends UpdateChecker {
     }
 
     final JsonNode node = UpdateCheckerUtils
-      .readTree(new URL(getSiteUrl()))
+      .readTree(UrlBuilder.build(getSiteUrl()))
       .findValue(productCode);
 
     setNewVersion(

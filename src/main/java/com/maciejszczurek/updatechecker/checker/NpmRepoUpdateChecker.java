@@ -4,8 +4,8 @@ import static com.maciejszczurek.updatechecker.application.model.ApplicationType
 
 import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import com.maciejszczurek.updatechecker.util.UpdateCheckerUtils;
+import com.maciejszczurek.updatechecker.util.UrlBuilder;
 import java.io.IOException;
-import java.net.URL;
 
 @ApplicationType(NPM_REPO)
 public class NpmRepoUpdateChecker extends UpdateChecker {
@@ -26,7 +26,7 @@ public class NpmRepoUpdateChecker extends UpdateChecker {
     setNewVersion(
       UpdateCheckerUtils
         .readTree(
-          new URL(
+          UrlBuilder.build(
             tags.length == 1 || tags.length == 3
               ? "https://registry.npmjs.org/%s".formatted(tags[0])
               : "https://registry.npmjs.org/%s/%s".formatted(tags[0], tags[1])

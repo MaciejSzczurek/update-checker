@@ -6,9 +6,9 @@ import com.maciejszczurek.updatechecker.application.NewVersionNotFoundException;
 import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import com.maciejszczurek.updatechecker.chrome.service.ChromeDriverHolder;
 import com.maciejszczurek.updatechecker.http.HttpBuilderFactory;
+import com.maciejszczurek.updatechecker.util.UrlBuilder;
 import com.pivovarit.function.exception.WrappedException;
 import java.io.IOException;
-import java.net.URL;
 import java.net.http.HttpResponse;
 import java.util.Map;
 import lombok.Setter;
@@ -30,7 +30,7 @@ public class NavigationMapsUpdateChecker extends UpdateChecker {
 
   @Override
   public void checkUpdate() throws IOException, InterruptedException {
-    final var siteUrl = new URL(getSiteUrl());
+    final var siteUrl = UrlBuilder.build(getSiteUrl());
     final var document = getJsoupConnectionInstance().get();
 
     final var webpackRuntimeUrl = document
@@ -47,7 +47,7 @@ public class NavigationMapsUpdateChecker extends UpdateChecker {
       .build()
       .send(
         HttpBuilderFactory.buildRequest(
-          new URL(siteUrl.getProtocol(), siteUrl.getHost(), webpackRuntimeUrl)
+          UrlBuilder.build(siteUrl.getProtocol(), siteUrl.getHost(), webpackRuntimeUrl)
             .toString()
         ),
         HttpResponse.BodyHandlers.ofString()
@@ -99,7 +99,7 @@ public class NavigationMapsUpdateChecker extends UpdateChecker {
                   .build()
                   .send(
                     HttpBuilderFactory.buildRequest(
-                      new URL(
+                      UrlBuilder.build(
                         siteUrl.getProtocol(),
                         siteUrl.getHost(),
                         "%s/%s.js".formatted(link, filename)

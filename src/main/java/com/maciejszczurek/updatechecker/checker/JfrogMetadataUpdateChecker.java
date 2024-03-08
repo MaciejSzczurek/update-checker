@@ -4,8 +4,8 @@ import static com.maciejszczurek.updatechecker.application.model.ApplicationType
 
 import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import com.maciejszczurek.updatechecker.checker.util.MavenVersionReaderUtility;
+import com.maciejszczurek.updatechecker.util.UrlBuilder;
 import java.io.IOException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
@@ -22,14 +22,14 @@ public class JfrogMetadataUpdateChecker extends UpdateChecker {
   @SuppressWarnings("CssInvalidHtmlTagReference")
   @Override
   public void checkUpdate() throws IOException {
-    final var url = new URL(getSiteUrl());
+    final var url = UrlBuilder.build(getSiteUrl());
     final var path = url.getPath().replace("/ui/native/", "");
     final var indexOfSlash = path.indexOf('/');
 
     setNewVersion(
       MavenVersionReaderUtility.readVersion(
         getJsoupConnectionInstance(
-          new URL(
+          UrlBuilder.build(
             url.getProtocol(),
             url.getHost(),
             url.getPort(),

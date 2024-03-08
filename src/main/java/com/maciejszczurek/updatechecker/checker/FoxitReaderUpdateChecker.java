@@ -4,8 +4,8 @@ import static com.maciejszczurek.updatechecker.application.model.ApplicationType
 
 import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import com.maciejszczurek.updatechecker.util.UpdateCheckerUtils;
+import com.maciejszczurek.updatechecker.util.UrlBuilder;
 import java.io.IOException;
-import java.net.URL;
 
 @ApplicationType(FOXIT_READER)
 public class FoxitReaderUpdateChecker extends UpdateChecker {
@@ -21,7 +21,7 @@ public class FoxitReaderUpdateChecker extends UpdateChecker {
   public void checkUpdate() throws IOException, InterruptedException {
     setNewVersion(
       UpdateCheckerUtils
-        .readTree(new URL(getSiteUrl()))
+        .readTree(UrlBuilder.build(getSiteUrl()))
         .get("package_info")
         .get("version")
         .get(0)

@@ -3,8 +3,8 @@ package com.maciejszczurek.updatechecker.checker;
 import static com.maciejszczurek.updatechecker.application.model.ApplicationType.GOOGLE_MAVEN_REPO;
 
 import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
+import com.maciejszczurek.updatechecker.util.UrlBuilder;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Arrays;
 
 @ApplicationType(GOOGLE_MAVEN_REPO)
@@ -19,7 +19,7 @@ public class GoogleMavenRepositoryUpdateChecker extends UpdateChecker {
 
   @Override
   public void checkUpdate() throws IOException {
-    final var packageIds = new URL(getSiteUrl()).getRef().split(":");
+    final var packageIds = UrlBuilder.build(getSiteUrl()).getRef().split(":");
 
     final var versions = Arrays
       .stream(

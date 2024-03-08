@@ -4,8 +4,8 @@ import static com.maciejszczurek.updatechecker.application.model.ApplicationType
 
 import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import com.maciejszczurek.updatechecker.util.UpdateCheckerUtils;
+import com.maciejszczurek.updatechecker.util.UrlBuilder;
 import java.io.IOException;
-import java.net.URL;
 
 @ApplicationType(JETBRAINS)
 public class JetBrainsUpdateChecker extends UpdateChecker {
@@ -21,7 +21,7 @@ public class JetBrainsUpdateChecker extends UpdateChecker {
   public void checkUpdate() throws IOException, InterruptedException {
     setNewVersion(
       UpdateCheckerUtils
-        .readTree(new URL(getSiteUrl()))
+        .readTree(UrlBuilder.build(getSiteUrl()))
         .findValue("version")
         .asText()
     );

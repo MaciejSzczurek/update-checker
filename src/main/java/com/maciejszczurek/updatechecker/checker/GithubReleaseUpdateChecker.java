@@ -6,8 +6,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.maciejszczurek.updatechecker.application.NewVersionNotFoundException;
 import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import com.maciejszczurek.updatechecker.util.UpdateCheckerUtils;
+import com.maciejszczurek.updatechecker.util.UrlBuilder;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -30,7 +30,7 @@ public class GithubReleaseUpdateChecker extends UpdateChecker {
 
   @Override
   public void checkUpdate() throws IOException {
-    final var url = new URL(getSiteUrl());
+    final var url = UrlBuilder.build(getSiteUrl());
     final var path = url.getPath().split("/");
     final var lastPathElement = path[path.length - 1];
     final var isLatest = lastPathElement.equals("latest");
@@ -39,7 +39,7 @@ public class GithubReleaseUpdateChecker extends UpdateChecker {
 
     try {
       final var releases = UpdateCheckerUtils.readValue(
-        new URL(
+        UrlBuilder.build(
           url.getProtocol(),
           "api.github.com",
           "/repos/%s/%s/releases".formatted(path[1], path[2])
@@ -71,7 +71,7 @@ public class GithubReleaseUpdateChecker extends UpdateChecker {
       versionElement =
         Optional.ofNullable(
           getJsoupConnectionInstance(
-            new URL(
+            UrlBuilder.build(
               url.getProtocol(),
               "github.com",
               "/%s/%s/releases%s".formatted(

@@ -4,8 +4,8 @@ import static com.maciejszczurek.updatechecker.application.model.ApplicationType
 
 import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import com.maciejszczurek.updatechecker.util.UpdateCheckerUtils;
+import com.maciejszczurek.updatechecker.util.UrlBuilder;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -21,7 +21,7 @@ public class GithubFileUpdateChecker extends UpdateChecker {
 
   @Override
   public void checkUpdate() throws IOException {
-    final var url = new URL(getSiteUrl());
+    final var url = UrlBuilder.build(getSiteUrl());
     final var path = Arrays.asList(url.getPath().split("/"));
 
     var version = "";
@@ -30,7 +30,7 @@ public class GithubFileUpdateChecker extends UpdateChecker {
       version =
         UpdateCheckerUtils
           .readTree(
-            new URL(
+            UrlBuilder.build(
               url.getProtocol(),
               "api.github.com",
               "/repos/%s/%s/commits?path=%s".formatted(
