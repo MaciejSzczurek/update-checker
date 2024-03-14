@@ -6,6 +6,7 @@ plugins {
     id "com.github.spotbugs" version '6.0.8'
     id "org.openjfx.javafxplugin" version "0.1.0"
     id "com.google.osdetector" version "1.7.3"
+    id "com.google.protobuf" version "0.9.4"
     id 'java'
     id 'pmd'
 }
@@ -34,6 +35,12 @@ downloadChromeDriver {
 javafx {
     version = JavaVersion.VERSION_21
     modules = ['javafx.controls', 'javafx.fxml']
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:4.26.0'
+    }
 }
 
 pmd {
