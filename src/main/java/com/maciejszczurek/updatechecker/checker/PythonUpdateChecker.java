@@ -6,6 +6,8 @@ import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import com.maciejszczurek.updatechecker.http.HttpBuilderFactory;
 import java.io.IOException;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.jsoup.Jsoup;
 
 @ApplicationType(PYTHON)
@@ -22,17 +24,19 @@ public class PythonUpdateChecker extends UpdateChecker {
 
   @Override
   public void checkUpdate() throws IOException, InterruptedException {
-    final var text = Jsoup
-      .parse(
-        HttpBuilderFactory
-          .getBuilder()
+    var text = Jsoup.parse(
+      new GzipCompressorInputStream(
+        HttpBuilderFactory.getBuilder()
           .build()
           .send(
             HttpBuilderFactory.buildRequest(getSiteUrl()),
-            HttpResponse.BodyHandlers.ofString()
+            HttpResponse.BodyHandlers.ofInputStream()
           )
           .body()
-      )
+      ),
+      StandardCharsets.UTF_8.name(),
+      getSiteUrl()
+    )
       .selectFirst(
         "#content > div > section > article > ul > li:nth-child(1) > a"
       )
