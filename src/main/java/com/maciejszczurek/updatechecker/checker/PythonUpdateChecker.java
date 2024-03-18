@@ -24,16 +24,21 @@ public class PythonUpdateChecker extends UpdateChecker {
 
   @Override
   public void checkUpdate() throws IOException, InterruptedException {
+    var httpResponse = HttpBuilderFactory.getBuilder()
+      .build()
+      .send(
+        HttpBuilderFactory.buildRequest(getSiteUrl()),
+        HttpResponse.BodyHandlers.ofInputStream()
+      );
+    var isGzipEncoding = httpResponse
+      .headers()
+      .firstValue("content-encoding")
+      .map(contentEncoding -> contentEncoding.equalsIgnoreCase("gzip"))
+      .orElse(Boolean.FALSE);
     var text = Jsoup.parse(
-      new GzipCompressorInputStream(
-        HttpBuilderFactory.getBuilder()
-          .build()
-          .send(
-            HttpBuilderFactory.buildRequest(getSiteUrl()),
-            HttpResponse.BodyHandlers.ofInputStream()
-          )
-          .body()
-      ),
+      isGzipEncoding
+        ? new GzipCompressorInputStream(httpResponse.body())
+        : httpResponse.body(),
       StandardCharsets.UTF_8.name(),
       getSiteUrl()
     )
