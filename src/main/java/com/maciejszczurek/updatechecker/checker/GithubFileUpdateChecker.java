@@ -42,7 +42,7 @@ public class GithubFileUpdateChecker extends UpdateChecker {
           )
           .get(0)
           .get("sha")
-          .asText("");
+          .asText();
     } catch (IOException e) {
       // ignored
     } catch (InterruptedException e) {
