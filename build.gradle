@@ -15,7 +15,7 @@ apply plugin: ChromeDriverPlugin
 
 group = 'com.maciejszczurek'
 version = '41.2.20'
-sourceCompatibility = JavaVersion.VERSION_21
+sourceCompatibility = JavaVersion.VERSION_22
 
 repositories {
     mavenCentral()
@@ -33,7 +33,7 @@ downloadChromeDriver {
 }
 
 javafx {
-    version = JavaVersion.VERSION_21
+    version = JavaVersion.VERSION_22
     modules = ['javafx.controls', 'javafx.fxml']
 }
 
