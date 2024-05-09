@@ -27,7 +27,7 @@ public class PostgresUpdateChecker extends UpdateChecker {
   public void checkUpdate() throws IOException, InterruptedException {
     final var table = getJsoupConnectionInstance()
       .get()
-      .select("#main-content table");
+      .select("section.community-downloads-section table");
     final var headerColumns = table.select("thead > tr > th");
 
     final var windowsUrl = table
