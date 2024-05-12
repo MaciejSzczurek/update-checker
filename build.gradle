@@ -76,7 +76,6 @@ dependencies {
     implementation "org.seleniumhq.selenium:selenium-support:4.20.0"
     implementation "org.seleniumhq.selenium:selenium-manager:4.20.0"
     implementation "org.seleniumhq.selenium:selenium-java:4.20.0"
-    implementation "org.seleniumhq.selenium:selenium-http-jdk-client:4.13.0"
     implementation "com.github.mouse0w0:darculafx:9.0.0"
 //    implementation "org.jfxtras:jmetro:11.6.15"
     implementation "org.jsoup:jsoup:1.17.2"
