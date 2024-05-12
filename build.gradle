@@ -26,6 +26,7 @@ repositories {
 
 bootJar {
     archiveFileName = "${archiveBaseName.get()}-${project.version}-${osdetector.os}.jar"
+    mainClass = "com.maciejszczurek.updatechecker.UpdateCheckerApplication"
 }
 
 downloadChromeDriver {
