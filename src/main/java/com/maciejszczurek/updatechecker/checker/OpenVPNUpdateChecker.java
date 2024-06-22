@@ -20,6 +20,6 @@ public class OpenVPNUpdateChecker extends UpdateChecker {
       .text()
       .strip()
       .replace("OpenVPN ", "");
-    setNewVersion(version.substring(0, version.indexOf(" --")));
+    setNewVersion(version.substring(0, version.indexOf(" -")));
   }
 }
