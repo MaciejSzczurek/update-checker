@@ -1094,4 +1094,11 @@ public class UpdateCheckerTest {
       )
     );
   }
+
+  @Test
+  void ultraVNC() throws IOException, InterruptedException {
+    checkUpdate(
+      new UltraVNCUpdateChecker("https://uvnc.com/downloads/ultravnc.html", "")
+    );
+  }
 }
