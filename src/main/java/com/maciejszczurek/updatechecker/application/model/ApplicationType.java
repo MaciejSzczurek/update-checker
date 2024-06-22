@@ -83,6 +83,7 @@ public enum ApplicationType {
   TC_UP,
   TORTOISE_GIT,
   UBUNTU,
+  ULTRA_VNC,
   VLC,
   WINAPP2,
   WINDOWS_REPAIR,
