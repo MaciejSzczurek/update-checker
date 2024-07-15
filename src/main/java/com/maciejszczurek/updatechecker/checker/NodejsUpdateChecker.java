@@ -17,13 +17,20 @@ public class NodejsUpdateChecker extends UpdateChecker {
 
   @Override
   public void checkUpdate() throws IOException, InterruptedException {
-    setNewVersion(
-      getJsoupConnectionInstance()
-        .get()
-        .select("a[data-version]")
-        .getFirst()
-        .attr("data-version")
-        .substring(1)
+    var versionsData = getJsoupConnectionInstance()
+      .get()
+      .select("script")
+      .html();
+    versionsData = versionsData.substring(
+      versionsData.indexOf(
+        "\\\"status\\\":\\\"%s\\\"".formatted(
+            getSiteUrl().endsWith("/current") ? "Current" : "LTS"
+          )
+      )
     );
+    versionsData = versionsData.substring(
+      versionsData.indexOf("\\\"version\\\":\\\"") + 14
+    );
+    setNewVersion(versionsData.substring(0, versionsData.indexOf("\\\"")));
   }
 }
