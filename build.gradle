@@ -46,7 +46,7 @@ protobuf {
 
 pmd {
     consoleOutput = true
-    toolVersion = '7.3.0'
+    toolVersion = '7.4.0'
     ruleSets = ['category/java/bestpractices.xml',
                 'category/java/codestyle.xml',
                 'category/java/design.xml',
