@@ -39,7 +39,11 @@ public class UserAgentGeneratorUtils {
     "?",
     "_",
   };
-  private static final String[] GREASED_VERSIONS = new String[] { "8", "99", "24" };
+  private static final String[] GREASED_VERSIONS = new String[] {
+    "8",
+    "99",
+    "24",
+  };
   private String chromeMajorVersion;
 
   @Contract(pure = true)
@@ -58,22 +62,23 @@ public class UserAgentGeneratorUtils {
         cpuType = "Win64; IA64";
       }
     } else if (IS_OS_POSIX) {
-      cpuType =
-        ArchUtils.getProcessor().is64Bit() &&
-          Native.POINTER_SIZE == Integer.BYTES
-          ? "i686 (x86_64)"
-          : OS_ARCH;
+      cpuType = ArchUtils.getProcessor().is64Bit() &&
+        Native.POINTER_SIZE == Integer.BYTES
+        ? "i686 (x86_64)"
+        : OS_ARCH;
     }
 
     var osVersion = "";
     if (IS_OS_MAC || IS_OS_WINDOWS) {
-      final var splittedVersion = Arrays
-        .stream(OS_VERSION.split("\\."))
-        .collect(Collectors.toCollection(ArrayList::new));
+      final var splittedVersion = Arrays.stream(
+        OS_VERSION.split("\\.")
+      ).collect(Collectors.toCollection(ArrayList::new));
 
       if (IS_OS_WINDOWS) {
-        osVersion =
-          splittedVersion.stream().limit(2).collect(Collectors.joining("."));
+        osVersion = splittedVersion
+          .stream()
+          .limit(2)
+          .collect(Collectors.joining("."));
       } else {
         if (Integer.parseInt(splittedVersion.get(0)) > 10) {
           splittedVersion.set(0, "10");
@@ -81,8 +86,10 @@ public class UserAgentGeneratorUtils {
           splittedVersion.set(2, "7");
         }
 
-        osVersion =
-          splittedVersion.stream().limit(3).collect(Collectors.joining("_"));
+        osVersion = splittedVersion
+          .stream()
+          .limit(3)
+          .collect(Collectors.joining("_"));
       }
     }
 
@@ -155,20 +162,19 @@ public class UserAgentGeneratorUtils {
   public String getChromeMajorVersion()
     throws IOException, InterruptedException {
     if (chromeMajorVersion == null) {
-      var chromeVersion = UpdateCheckerUtils
-        .readTree(
-          URI
-            .create(
-              "https://chromium.woolyss.com/api/v3/?os=windows&out=json&type=stable-codecs-sync"
-            )
-            .toURL()
-        )
+      var chromeVersion = UpdateCheckerUtils.readTree(
+        URI.create(
+          "https://chromium.woolyss.com/api/v3/?os=windows&out=json&type=stable-codecs-sync"
+        ).toURL()
+      )
         .get("chromium")
         .get("windows")
         .get("version")
         .textValue();
-      chromeMajorVersion =
-        chromeVersion.substring(0, chromeVersion.indexOf('.'));
+      chromeMajorVersion = chromeVersion.substring(
+        0,
+        chromeVersion.indexOf('.')
+      );
     }
 
     return chromeMajorVersion;
