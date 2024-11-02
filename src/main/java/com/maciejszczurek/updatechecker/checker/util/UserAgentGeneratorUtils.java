@@ -25,7 +25,21 @@ import org.jetbrains.annotations.Unmodifiable;
 @UtilityClass
 public class UserAgentGeneratorUtils {
 
-  private final boolean IS_OS_POSIX = IS_OS_MAC || IS_OS_LINUX;
+  private static final boolean IS_OS_POSIX = IS_OS_MAC || IS_OS_LINUX;
+  private static final String[] GREASED_CHARS = new String[] {
+    " ",
+    "(",
+    ":",
+    "-",
+    ".",
+    "/",
+    ")",
+    ";",
+    "=",
+    "?",
+    "_",
+  };
+  private static final String[] GREASED_VERSIONS = new String[] { "8", "99", "24" };
   private String chromeMajorVersion;
 
   @Contract(pure = true)
@@ -92,28 +106,14 @@ public class UserAgentGeneratorUtils {
     final String majorVersion
   ) {
     final var seed = Integer.parseInt(majorVersion);
-    final var greasedChars = new String[] {
-      " ",
-      "(",
-      ":",
-      "-",
-      ".",
-      "/",
-      ")",
-      ";",
-      "=",
-      "?",
-      "_",
-    };
-    final var greasedVersions = new String[] { "8", "99", "24" };
 
     var brandVersions = LinkedHashMap.<String, String>newLinkedHashMap(2);
     brandVersions.put(
       "Not%sA%sBrand".formatted(
-        greasedChars[seed % greasedChars.length],
-        greasedChars[(seed + 1) % greasedChars.length]
-      ),
-      greasedVersions[seed % greasedVersions.length]
+          GREASED_CHARS[seed % GREASED_CHARS.length],
+          GREASED_CHARS[(seed + 1) % GREASED_CHARS.length]
+        ),
+      GREASED_VERSIONS[seed % GREASED_VERSIONS.length]
     );
     brandVersions.put("Chromium", majorVersion);
 
