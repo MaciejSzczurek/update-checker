@@ -13,8 +13,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
@@ -89,7 +88,7 @@ public class UserAgentGeneratorUtils {
     return "%s%s".formatted(platform, osInfo);
   }
 
-  public List<Map.Entry<String, String>> generateBrandVersionsList(
+  public Map<String, String> generateBrandVersionsList(
     final String majorVersion
   ) {
     final var seed = Integer.parseInt(majorVersion);
@@ -108,21 +107,15 @@ public class UserAgentGeneratorUtils {
     };
     final var greasedVersions = new String[] { "8", "99", "24" };
 
-    final var brandVersions = new ArrayList<>(
-      Collections.<Map.Entry<String, String>>nCopies(2, null)
+    var brandVersions = LinkedHashMap.<String, String>newLinkedHashMap(2);
+    brandVersions.put(
+      "Not%sA%sBrand".formatted(
+        greasedChars[seed % greasedChars.length],
+        greasedChars[(seed + 1) % greasedChars.length]
+      ),
+      greasedVersions[seed % greasedVersions.length]
     );
-    brandVersions.set(
-      seed & 1,
-      Map.entry(
-        "%sNot%sA%sBrand".formatted(
-            greasedChars[seed % greasedChars.length],
-            greasedChars[(seed + 1) % greasedChars.length],
-            greasedChars[(seed + 2) % greasedChars.length]
-          ),
-        greasedVersions[seed % greasedVersions.length]
-      )
-    );
-    brandVersions.set((seed + 1) & 1, Map.entry("Chromium", majorVersion));
+    brandVersions.put("Chromium", majorVersion);
 
     return brandVersions;
   }
@@ -145,6 +138,7 @@ public class UserAgentGeneratorUtils {
     return Map.of(
       "sec-ch-ua",
       generateBrandVersionsList(getChromeMajorVersion())
+        .entrySet()
         .stream()
         .map(entry ->
           "\"%s\";v=\"%s\"".formatted(entry.getKey(), entry.getValue())
