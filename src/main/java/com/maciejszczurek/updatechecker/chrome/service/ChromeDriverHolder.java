@@ -37,9 +37,8 @@ public class ChromeDriverHolder {
   private ChromeDriver driver;
 
   @NotNull
-  private static String getChromeDriverVersion(
-    @NotNull final Resource resource
-  ) throws IOException {
+  private static String getChromeDriverVersion(@NotNull Resource resource)
+    throws IOException {
     try (var file = resource.getInputStream()) {
       file.skipNBytes(0x9B_0000);
 
@@ -66,24 +65,29 @@ public class ChromeDriverHolder {
   @Transactional
   @PostConstruct
   public void initialize() throws IOException {
-    var chromeDriverFilename = "chromedriver%s".formatted(SystemUtils.IS_OS_WINDOWS ? ".exe" : "");
+    var chromeDriverFilename =
+      "chromedriver%s".formatted(SystemUtils.IS_OS_WINDOWS ? ".exe" : "");
 
     System.setProperty("webdriver.http.factory", "jdk-http-client");
-    System.setProperty("webdriver.chrome.driver", "./%s".formatted(chromeDriverFilename));
+    System.setProperty(
+      "webdriver.chrome.driver",
+      "./%s".formatted(chromeDriverFilename)
+    );
 
-    final var chromeDriverPath = resourceLoader
+    var chromeDriverPath = resourceLoader
       .getResource("file:%s".formatted(chromeDriverFilename))
       .getFile()
       .toPath();
 
-    final var chromeDriverResource = resourceLoader.getResource(
+    var chromeDriverResource = resourceLoader.getResource(
       "classpath:%s".formatted(chromeDriverFilename)
     );
 
     if (
       !Files.exists(chromeDriverPath) ||
-      !getChromeDriverVersion(chromeDriverResource)
-        .equals(optionService.getOption("chrome-driver-version", ""))
+      !getChromeDriverVersion(chromeDriverResource).equals(
+        optionService.getOption("chrome-driver-version", "")
+      )
     ) {
       FileUtils.copyInputStreamToFile(
         chromeDriverResource.getInputStream(),
@@ -95,23 +99,22 @@ public class ChromeDriverHolder {
       );
     }
 
-    driver =
-      new ChromeDriver(
-        new ChromeDriverService.Builder().withSilent(true).build(),
-        new ChromeOptions()
-          .addArguments(
-            "--headless=new",
-            "--window-size=1920,1080",
-            "--start-maximized"
-          )
-      );
+    driver = new ChromeDriver(
+      new ChromeDriverService.Builder().withSilent(true).build(),
+      new ChromeOptions()
+        .addArguments(
+          "--headless=new",
+          "--window-size=1920,1080",
+          "--start-maximized"
+        )
+    );
 
-    final var driverVersion =
-      (
-        (String) (
-          (Map<?, ?>) driver.getCapabilities().getCapability("chrome")
-        ).get("chromedriverVersion")
-      ).split("\\.")[0];
+    var driverVersion =
+      ((String) ((Map<?, ?>) driver
+            .getCapabilities()
+            .getCapability("chrome")).get("chromedriverVersion")).split(
+          "\\."
+        )[0];
 
     if (
       !driver
@@ -129,26 +132,26 @@ public class ChromeDriverHolder {
       Map.of(
         "source",
         """
-                  Object.defineProperty(window, "navigator", {
-                    value: new Proxy(navigator, {
-                    has: (target, key) => (key === "webdriver" ? false : key in target),
-                      get: (target, key) =>
-                        key === "webdriver"
-                          ? undefined
-                          : typeof target[key] === "function"
-                          ? target[key].bind(target)
-                          : target[key]
-                    })
-                  });
-                  
-                  Object.defineProperty(Notification, "permission", {
-                    configurable: true,
-                    enumerable: true,
-                    get: () => {
-                      return "unknown";
-                    }
-                  });
-                """
+          Object.defineProperty(window, "navigator", {
+            value: new Proxy(navigator, {
+            has: (target, key) => (key === "webdriver" ? false : key in target),
+              get: (target, key) =>
+                key === "webdriver"
+                  ? undefined
+                  : typeof target[key] === "function"
+                  ? target[key].bind(target)
+                  : target[key]
+            })
+          });
+
+          Object.defineProperty(Notification, "permission", {
+            configurable: true,
+            enumerable: true,
+            get: () => {
+              return "unknown";
+            }
+          });
+        """
       )
     );
     driver.executeCdpCommand(
@@ -168,7 +171,7 @@ public class ChromeDriverHolder {
     driver.quit();
   }
 
-  public void run(@NotNull final Consumer<ChromeDriver> consumer) {
+  public void run(@NotNull Consumer<ChromeDriver> consumer) {
     consumer.accept(driver);
   }
 }
