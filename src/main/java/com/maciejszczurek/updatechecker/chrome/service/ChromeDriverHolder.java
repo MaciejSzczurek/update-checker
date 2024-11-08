@@ -12,6 +12,7 @@ import java.util.function.Consumer;
 import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.jetbrains.annotations.NotNull;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
@@ -67,13 +68,14 @@ public class ChromeDriverHolder {
   public void initialize() throws IOException {
     System.setProperty("webdriver.http.factory", "jdk-http-client");
 
+    var chromeDriverFilename = "chromedriver%s".formatted(SystemUtils.IS_OS_WINDOWS ? ".exe" : "");
     final var chromeDriverPath = resourceLoader
-      .getResource("file:chromedriver.exe")
+      .getResource("file:%s".formatted(chromeDriverFilename))
       .getFile()
       .toPath();
 
     final var chromeDriverResource = resourceLoader.getResource(
-      "classpath:chromedriver.exe"
+      "classpath:%s".formatted(chromeDriverFilename)
     );
 
     if (
