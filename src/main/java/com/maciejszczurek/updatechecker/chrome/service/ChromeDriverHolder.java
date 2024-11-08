@@ -66,9 +66,11 @@ public class ChromeDriverHolder {
   @Transactional
   @PostConstruct
   public void initialize() throws IOException {
-    System.setProperty("webdriver.http.factory", "jdk-http-client");
-
     var chromeDriverFilename = "chromedriver%s".formatted(SystemUtils.IS_OS_WINDOWS ? ".exe" : "");
+
+    System.setProperty("webdriver.http.factory", "jdk-http-client");
+    System.setProperty("webdriver.chrome.driver", "./%s".formatted(chromeDriverFilename));
+
     final var chromeDriverPath = resourceLoader
       .getResource("file:%s".formatted(chromeDriverFilename))
       .getFile()
