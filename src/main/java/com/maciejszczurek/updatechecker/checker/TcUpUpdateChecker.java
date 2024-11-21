@@ -22,7 +22,7 @@ public class TcUpUpdateChecker extends UpdateChecker {
           getJsoupConnectionInstance()
             .get()
             .selectFirst(
-              "#inner_content-33-11 mark.has-inline-color.has-luminous-vivid-amber-color"
+              "#inner_content-33-11 > p:nth-child(5) > span > span:nth-child(2)"
             )
         )
         .orElseThrow(() ->
