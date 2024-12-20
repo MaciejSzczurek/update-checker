@@ -530,7 +530,7 @@ public class UpdateCheckerTest {
   void nvidiaDriver() throws IOException, InterruptedException {
     checkUpdate(
       new NvidiaDriverUpdateChecker(
-        "https://www.nvidia.pl/Download/processDriver.aspx?psid=101&pfid=815&rpf=1&osid=57&lid=14&lang=pl&ctk=0&dtid=1&dtcid=1",
+        "https://gfwsl.geforce.com/services_toolkit/services/com/nvidia/services/AjaxDriverService.php?func=DriverManualLookup&psid=101&pfid=815&osID=57&languageCode=1045&beta=null&isWHQL=0&dltype=-1&dch=1&upCRD=null&qnf=0&ctk=null&sort1=1&numberOfResults=1",
         ""
       )
     );

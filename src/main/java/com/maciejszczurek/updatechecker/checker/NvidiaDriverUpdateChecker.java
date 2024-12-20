@@ -3,7 +3,9 @@ package com.maciejszczurek.updatechecker.checker;
 import static com.maciejszczurek.updatechecker.application.model.ApplicationType.NVIDIA_DRIVER;
 
 import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
+import com.maciejszczurek.updatechecker.util.UpdateCheckerUtils;
 import java.io.IOException;
+import java.net.URI;
 
 @ApplicationType(NVIDIA_DRIVER)
 public class NvidiaDriverUpdateChecker extends UpdateChecker {
@@ -16,15 +18,14 @@ public class NvidiaDriverUpdateChecker extends UpdateChecker {
   }
 
   @Override
-  public void checkUpdate() throws IOException {
+  public void checkUpdate() throws IOException, InterruptedException {
     setNewVersion(
-      getJsoupConnectionInstance(
-        "https:%s".formatted(getJsoupConnectionInstance().get().text())
-      )
-        .get()
-        .select("#tdVersion")
-        .text()
-        .replace(" WHQL", "")
+      UpdateCheckerUtils.readTree(URI.create(getSiteUrl()).toURL())
+        .get("IDS")
+        .get(0)
+        .get("downloadInfo")
+        .get("Version")
+        .asText()
     );
   }
 }
