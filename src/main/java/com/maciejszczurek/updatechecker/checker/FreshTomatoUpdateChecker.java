@@ -17,11 +17,10 @@ public class FreshTomatoUpdateChecker extends UpdateChecker {
 
   @Override
   public void checkUpdate() throws IOException {
-    final String version = getJsoupConnectionInstance()
+    var version = getJsoupConnectionInstance()
       .get()
-      .select("body > div > div.container > div.left > div:nth-child(14)")
-      .text()
-      .replace("Stable: ", "");
+      .select("body > div > div.container > div.left > div:nth-child(15)")
+      .text();
 
     setNewVersion(version.substring(0, version.indexOf(" (")));
   }
