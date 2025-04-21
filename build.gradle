@@ -90,7 +90,7 @@ dependencies {
     annotationProcessor "org.projectlombok:lombok:1.18.38"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.batch:spring-batch-test'
-    spotbugsPlugins "com.h3xstream.findsecbugs:findsecbugs-plugin:1.13.0"
+    spotbugsPlugins "com.h3xstream.findsecbugs:findsecbugs-plugin:1.14.0"
 }
 
 test {
