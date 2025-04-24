@@ -19,7 +19,7 @@ public class FreshTomatoUpdateChecker extends UpdateChecker {
   public void checkUpdate() throws IOException {
     var version = getJsoupConnectionInstance()
       .get()
-      .select("body > div > div.container > div.left > div:nth-child(15)")
+      .select("body > div > div.container > div.left > div:nth-child(16)")
       .text();
 
     setNewVersion(version.substring(0, version.indexOf(" (")));
