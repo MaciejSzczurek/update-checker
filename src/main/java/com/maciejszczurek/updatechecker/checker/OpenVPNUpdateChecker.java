@@ -16,7 +16,9 @@ public class OpenVPNUpdateChecker extends UpdateChecker {
   public void checkUpdate() throws IOException, InterruptedException {
     var version = getJsoupConnectionInstance()
       .get()
-      .select("div.card:nth-child(1) > div.card-header > h5 > button")
+      .select(
+        "body > main > section > section > article > div > div:nth-child(1) > button > header > span"
+      )
       .text()
       .strip()
       .replace("OpenVPN ", "");
