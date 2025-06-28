@@ -21,7 +21,7 @@ public class UltraVNCUpdateChecker extends UpdateChecker {
           "#sp-component > div > div.category-list > div > div > div > p:nth-child(1) > span"
         )
         .text()
-        .replace("Latest release version: ", "")
+        .replace("Latest release version: UltraVNC ", "")
     );
   }
 }
