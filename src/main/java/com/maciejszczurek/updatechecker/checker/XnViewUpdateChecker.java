@@ -17,12 +17,13 @@ public class XnViewUpdateChecker extends UpdateChecker {
 
   @Override
   public void checkUpdate() throws IOException {
+    var anchor = getJsoupConnectionInstance()
+      .get()
+      .select(
+        "#downloads > table > tbody > tr:nth-child(11) > td:nth-child(2) > a"
+      );
     setNewVersion(
-      getJsoupConnectionInstance()
-        .get()
-        .select("#downloads > p.h5.mt-3 > strong")
-        .html()
-        .replace("XnView MP ", "")
+      !anchor.isEmpty() ? anchor.first().text().replace("XnView MP ", "") : ""
     );
   }
 }
