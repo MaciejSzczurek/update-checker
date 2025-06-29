@@ -19,10 +19,12 @@ public class BaseWinWindows10UpdateChecker extends UpdateChecker {
   public void checkUpdate() throws IOException {
     final String text = getJsoupConnectionInstance()
       .get()
-      .select("p.MsoNormal:nth-child(4)")
+      .select(
+        "body > div.WordSection1 > div > p:nth-child(3) > span > a > b:nth-child(1) > span"
+      )
       .text()
       .replace("Windows 11 ", "");
 
-    setNewVersion(text.substring(0, text.indexOf(" (")));
+    setNewVersion(text.substring(0, text.indexOf(" +")));
   }
 }
