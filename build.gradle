@@ -14,7 +14,7 @@ plugins {
 apply plugin: ChromeDriverPlugin
 
 group = 'com.maciejszczurek'
-version = '41.3.80'
+version = '41.3.81'
 sourceCompatibility = JavaVersion.VERSION_24
 
 repositories {
