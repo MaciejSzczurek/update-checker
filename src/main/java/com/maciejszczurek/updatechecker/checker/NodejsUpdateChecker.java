@@ -24,7 +24,7 @@ public class NodejsUpdateChecker extends UpdateChecker {
     versionsData = versionsData.substring(
       versionsData.indexOf(
         "\\\"status\\\":\\\"%s\\\"".formatted(
-            getSiteUrl().endsWith("/current") ? "Current" : "LTS"
+            getSiteUrl().endsWith("/current") ? "Current" : "Active LTS"
           )
       )
     );

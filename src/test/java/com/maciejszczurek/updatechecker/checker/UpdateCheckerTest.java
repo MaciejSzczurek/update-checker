@@ -334,7 +334,7 @@ public class UpdateCheckerTest {
 
   @Test
   void nodejs() throws IOException, InterruptedException {
-    checkUpdate(new NodejsUpdateChecker("https://nodejs.org/en/download/prebuilt-installer", ""));
+    checkUpdate(new NodejsUpdateChecker("https://nodejs.org/en/download", ""));
   }
 
   @Test
