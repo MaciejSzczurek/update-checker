@@ -17,11 +17,11 @@ public class OpenVPNUpdateChecker extends UpdateChecker {
     var version = getJsoupConnectionInstance()
       .get()
       .select(
-        "body > main > section > section > article > div > div:nth-child(1) > button > header > span"
+        "#community_download_banner_btn > span"
       )
       .text()
       .strip()
-      .replace("OpenVPN ", "");
-    setNewVersion(version.substring(0, version.indexOf(" -")));
+      .replace("Download OpenVPN-", "");
+    setNewVersion(version.substring(0, version.indexOf("-")));
   }
 }
