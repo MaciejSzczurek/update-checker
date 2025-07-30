@@ -82,7 +82,7 @@ dependencies {
     implementation 'org.jetbrains:annotations:26.0.2'
     implementation "org.apache.commons:commons-lang3:3.18.0"
     implementation "org.apache.commons:commons-pool2:2.12.1"
-    implementation 'org.apache.commons:commons-compress:1.27.1'
+    implementation 'org.apache.commons:commons-compress:1.28.0'
     implementation "com.pivovarit:throwing-function:1.6.1"
     implementation 'org.projectlombok:lombok:1.18.38'
     runtimeOnly 'com.h2database:h2:2.3.232'
