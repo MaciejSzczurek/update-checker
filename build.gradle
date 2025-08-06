@@ -15,7 +15,10 @@ apply plugin: ChromeDriverPlugin
 
 group = 'com.maciejszczurek'
 version = '41.3.83'
-sourceCompatibility = JavaVersion.VERSION_24
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_24
+}
 
 repositories {
     mavenCentral()
