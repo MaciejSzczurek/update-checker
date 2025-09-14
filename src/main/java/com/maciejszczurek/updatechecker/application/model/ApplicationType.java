@@ -19,6 +19,7 @@ public enum ApplicationType {
   DOCKER_HUB,
   DRIVER_GENIUS,
   EURO_TRUCK_SIMULATOR,
+  E_TAG,
   FILE_HIPPO,
   FOXIT_READER,
   FRESH_TOMATO,

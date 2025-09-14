@@ -11,6 +11,7 @@ import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import com.maciejszczurek.updatechecker.chrome.service.ChromeDriverHolder;
 import com.maciejszczurek.updatechecker.cookie.service.CookieHolder;
 import com.maciejszczurek.updatechecker.option.service.OptionService;
+import com.maciejszczurek.updatechecker.service.UpdateCheckerFactory;
 import com.maciejszczurek.updatechecker.service.UserAgents;
 import java.io.IOException;
 import java.net.CookieManager;
@@ -27,12 +28,19 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.client.RestClientAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @NoArgsConstructor
-public class UpdateCheckerTest {
+@SpringBootTest(
+  classes = { RestClientAutoConfiguration.class, UpdateCheckerFactory.class }
+)
+class UpdateCheckerTest {
 
   private static final Logger log = LogManager.getLogger(
     UpdateCheckerTest.class
@@ -42,28 +50,30 @@ public class UpdateCheckerTest {
   private static ChromeDriverHolder chromeService;
   private static CookieHolder cookieHolder;
 
+  @Autowired
+  private AnnotationConfigApplicationContext context;
+
   private static void checkUpdate(@NotNull final UpdateChecker updateChecker)
     throws IOException, InterruptedException {
     updateChecker.checkUpdate();
     assertThat(updateChecker.isUpdate()).isTrue();
 
     updateChecker.update();
-    assertThat(updateChecker.getCurrentVersion())
-      .isEqualTo(updateChecker.getNewVersion());
+    assertThat(updateChecker.getCurrentVersion()).isEqualTo(
+      updateChecker.getNewVersion()
+    );
     assertThat(updateChecker.getNewVersion())
       .doesNotStartWith(" ")
       .doesNotEndWith(" ");
 
     log.debug(
       "{}: {}",
-      Objects
-        .requireNonNull(
-          AnnotationUtils.findAnnotation(
-            updateChecker.getClass(),
-            ApplicationType.class
-          )
+      Objects.requireNonNull(
+        AnnotationUtils.findAnnotation(
+          updateChecker.getClass(),
+          ApplicationType.class
         )
-        .value(),
+      ).value(),
       updateChecker.getCurrentVersion()
     );
   }
@@ -75,18 +85,18 @@ public class UpdateCheckerTest {
     final var optionService = mock(OptionService.class);
     final var resourceLoader = new DefaultResourceLoader();
 
-    when(optionService.getOption("chrome-driver-version", ""))
-      .thenReturn(CHROME_DRIVER_VERSION);
+    when(optionService.getOption("chrome-driver-version", "")).thenReturn(
+      CHROME_DRIVER_VERSION
+    );
 
     chromeService = new ChromeDriverHolder(optionService, resourceLoader);
     chromeService.initialize();
 
-    cookieHolder =
-      new CookieHolder(
-        chromeService,
-        cookieManager,
-        mock(PlatformTransactionManager.class)
-      );
+    cookieHolder = new CookieHolder(
+      chromeService,
+      cookieManager,
+      mock(PlatformTransactionManager.class)
+    );
   }
 
   @AfterAll
@@ -409,7 +419,7 @@ public class UpdateCheckerTest {
   void stationDrivers() throws IOException, InterruptedException {
     final var updateChecker = new StationDriversUpdateChecker(
       "https://www.station-drivers.com/index.php?option=com_remository&Itemid=353&func=select" +
-      "&id=406&orderby=4&lang=en",
+        "&id=406&orderby=4&lang=en",
       ""
     );
     updateChecker.setName("Intel Chipset Device Software");
@@ -417,23 +427,24 @@ public class UpdateCheckerTest {
 
     var badSortingUpdateChecker = new StationDriversUpdateChecker(
       "https://www.station-drivers.com/index.php/en/component/remository/Drivers/Intel" +
-      "/Management-Engine-Interface-(MEI)/Drivers/11.x/MEI-1.5Mo/lang,en-gb/",
+        "/Management-Engine-Interface-(MEI)/Drivers/11.x/MEI-1.5Mo/lang,en-gb/",
       ""
     );
     badSortingUpdateChecker.setNewVersion(
       "Intel Management Engine Interface (MEI)"
     );
-    assertThatCode(badSortingUpdateChecker::checkUpdate)
-      .isInstanceOf(NewVersionNotFoundException.class);
+    assertThatCode(badSortingUpdateChecker::checkUpdate).isInstanceOf(
+      NewVersionNotFoundException.class
+    );
 
-    badSortingUpdateChecker =
-      new StationDriversUpdateChecker(
-        "https://www.station-drivers.com/index.php?option=com_remository&Itemid=353&func=select&id=406&lang=en",
-        ""
-      );
+    badSortingUpdateChecker = new StationDriversUpdateChecker(
+      "https://www.station-drivers.com/index.php?option=com_remository&Itemid=353&func=select&id=406&lang=en",
+      ""
+    );
     badSortingUpdateChecker.setNewVersion("Intel Chipset Device Software");
-    assertThatCode(badSortingUpdateChecker::checkUpdate)
-      .isInstanceOf(NewVersionNotFoundException.class);
+    assertThatCode(badSortingUpdateChecker::checkUpdate).isInstanceOf(
+      NewVersionNotFoundException.class
+    );
   }
 
   @Test
@@ -451,7 +462,7 @@ public class UpdateCheckerTest {
     checkUpdate(
       new RealtekEthernetWindows10UpdateChecker(
         "http://218.210.127.131/downloads/downloadsView.aspx?Langid=1&PNid=13&PFid=5&Level=5&" +
-        "Conn=4&DownTypeID=3&GetDown=false",
+          "Conn=4&DownTypeID=3&GetDown=false",
         ""
       )
     );
@@ -569,9 +580,10 @@ public class UpdateCheckerTest {
     userCookie.setVersion(0);
     userCookie.setPath("/");
     userCookie.setMaxAge(
-      ZonedDateTime
-        .now()
-        .until(ZonedDateTime.now().plusMonths(1), ChronoUnit.SECONDS)
+      ZonedDateTime.now().until(
+        ZonedDateTime.now().plusMonths(1),
+        ChronoUnit.SECONDS
+      )
     );
     userCookie.setHttpOnly(true);
     userCookie.setSecure(true);
@@ -639,8 +651,10 @@ public class UpdateCheckerTest {
     );
     adoptiumUpdateChecker.setName("Adoptium");
     checkUpdate(adoptiumUpdateChecker);
-    adoptiumUpdateChecker =
-      new AdoptiumUpdateChecker("https://adoptium.net/releases.html", "");
+    adoptiumUpdateChecker = new AdoptiumUpdateChecker(
+      "https://adoptium.net/releases.html",
+      ""
+    );
     adoptiumUpdateChecker.setName("Adoptium Windows");
     checkUpdate(adoptiumUpdateChecker);
   }
@@ -836,59 +850,52 @@ public class UpdateCheckerTest {
     checkUpdate(githubReleaseUpdateChecker);
     doesNotStartWith.accept(githubReleaseUpdateChecker);
 
-    githubReleaseUpdateChecker =
-      new GithubReleaseUpdateChecker(
-        "https://github.com/adoxa/ansicon/releases",
-        ""
-      );
+    githubReleaseUpdateChecker = new GithubReleaseUpdateChecker(
+      "https://github.com/adoxa/ansicon/releases",
+      ""
+    );
     checkUpdate(githubReleaseUpdateChecker);
     doesNotStartWith.accept(githubReleaseUpdateChecker);
 
-    githubReleaseUpdateChecker =
-      new GithubReleaseUpdateChecker(
-        "https://github.com/drwetter/testssl.sh/releases",
-        ""
-      );
+    githubReleaseUpdateChecker = new GithubReleaseUpdateChecker(
+      "https://github.com/drwetter/testssl.sh/releases",
+      ""
+    );
     checkUpdate(githubReleaseUpdateChecker);
     doesNotStartWith.accept(githubReleaseUpdateChecker);
 
-    githubReleaseUpdateChecker =
-      new GithubReleaseUpdateChecker(
-        "https://github.com/SpiderLabs/ModSecurity/releases",
-        ""
-      );
+    githubReleaseUpdateChecker = new GithubReleaseUpdateChecker(
+      "https://github.com/SpiderLabs/ModSecurity/releases",
+      ""
+    );
     checkUpdate(githubReleaseUpdateChecker);
     doesNotStartWith.accept(githubReleaseUpdateChecker);
 
-    githubReleaseUpdateChecker =
-      new GithubReleaseUpdateChecker(
-        "https://github.com/docker/docker-ce/releases",
-        ""
-      );
+    githubReleaseUpdateChecker = new GithubReleaseUpdateChecker(
+      "https://github.com/docker/docker-ce/releases",
+      ""
+    );
     checkUpdate(githubReleaseUpdateChecker);
     doesNotStartWith.accept(githubReleaseUpdateChecker);
 
-    githubReleaseUpdateChecker =
-      new GithubReleaseUpdateChecker(
-        "https://github.com/gradle/gradle/releases/latest",
-        ""
-      );
+    githubReleaseUpdateChecker = new GithubReleaseUpdateChecker(
+      "https://github.com/gradle/gradle/releases/latest",
+      ""
+    );
     checkUpdate(githubReleaseUpdateChecker);
     doesNotStartWith.accept(githubReleaseUpdateChecker);
 
-    githubReleaseUpdateChecker =
-      new GithubReleaseUpdateChecker(
-        "https://github.com/gradle/gradle/releases",
-        ""
-      );
+    githubReleaseUpdateChecker = new GithubReleaseUpdateChecker(
+      "https://github.com/gradle/gradle/releases",
+      ""
+    );
     checkUpdate(githubReleaseUpdateChecker);
     doesNotStartWith.accept(githubReleaseUpdateChecker);
 
-    githubReleaseUpdateChecker =
-      new GithubReleaseUpdateChecker(
-        "https://github.com/gradle/gradle/releases/prerelease",
-        ""
-      );
+    githubReleaseUpdateChecker = new GithubReleaseUpdateChecker(
+      "https://github.com/gradle/gradle/releases/prerelease",
+      ""
+    );
     checkUpdate(githubReleaseUpdateChecker);
     doesNotStartWith.accept(githubReleaseUpdateChecker);
   }
@@ -1074,9 +1081,7 @@ public class UpdateCheckerTest {
 
   @Test
   void openVPN() throws IOException, InterruptedException {
-    checkUpdate(
-      new OpenVPNUpdateChecker("https://openvpn.net/community", "")
-    );
+    checkUpdate(new OpenVPNUpdateChecker("https://openvpn.net/community", ""));
   }
 
   @Test
@@ -1099,6 +1104,17 @@ public class UpdateCheckerTest {
   void ultraVNC() throws IOException, InterruptedException {
     checkUpdate(
       new UltraVNCUpdateChecker("https://uvnc.com/downloads/ultravnc.html", "")
+    );
+  }
+
+  @Test
+  void eTag() throws IOException, InterruptedException {
+    checkUpdate(
+      context.getBean(
+        ETagUpdateChecker.class,
+        "https://letsencrypt.org/certificates/",
+        ""
+      )
     );
   }
 }
