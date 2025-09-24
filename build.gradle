@@ -72,7 +72,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-core:2.20.0'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.20.0'
     implementation 'commons-io:commons-io:2.20.0'
-    implementation "org.hibernate.orm:hibernate-core:6.6.28.Final"
+    implementation "org.hibernate.orm:hibernate-core:6.6.29.Final"
     implementation "org.hibernate.validator:hibernate-validator:8.0.3.Final"
     implementation 'net.java.dev.jna:jna:5.18.0'
     implementation "org.seleniumhq.selenium:selenium-api:4.35.0"
