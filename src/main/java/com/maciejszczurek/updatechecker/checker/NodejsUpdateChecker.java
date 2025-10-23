@@ -21,13 +21,21 @@ public class NodejsUpdateChecker extends UpdateChecker {
       .get()
       .select("script")
       .html();
-    versionsData = versionsData.substring(
-      versionsData.indexOf(
-        "\\\"status\\\":\\\"%s\\\"".formatted(
-            getSiteUrl().endsWith("/current") ? "Current" : "Active LTS"
-          )
-      )
-    );
+    if (getSiteUrl().endsWith("/current")) {
+      versionsData = versionsData.substring(
+        versionsData.indexOf("\\\"status\\\":\\\"Current\\\"")
+      );
+    } else {
+      var ltsVersionIndexLocation = versionsData.indexOf(
+        "\\\"status\\\":\\\"Active LTS\\\""
+      );
+      if (ltsVersionIndexLocation == -1) {
+        ltsVersionIndexLocation = versionsData.indexOf(
+          "\\\"status\\\":\\\"Maintenance LTS\\\""
+        );
+      }
+      versionsData = versionsData.substring(ltsVersionIndexLocation);
+    }
     versionsData = versionsData.substring(
       versionsData.indexOf("\\\"version\\\":\\\"") + 14
     );
