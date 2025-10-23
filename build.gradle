@@ -43,7 +43,7 @@ javafx {
 
 protobuf {
     protoc {
-        artifact = 'com.google.protobuf:protoc:4.32.1'
+        artifact = 'com.google.protobuf:protoc:4.33.0'
     }
 }
 
@@ -66,7 +66,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-batch'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation "com.google.protobuf:protobuf-java:4.32.1"
+    implementation "com.google.protobuf:protobuf-java:4.33.0"
     implementation 'org.apache.httpcomponents.client5:httpclient5:5.5'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.20'
     implementation 'com.fasterxml.jackson.core:jackson-core:2.20.0'
