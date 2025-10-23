@@ -32,10 +32,7 @@ public class WinRarPlUpdateChecker extends UpdateChecker {
           Objects.nonNull(element.selectFirst("td:nth-child(2)"))
         )
         .filter(element ->
-          element
-            .selectFirst("td:nth-child(1) > a > b")
-            .text()
-            .equals("Polish (64 bit)")
+          element.selectFirst("td:nth-child(1) > a > b").text().equals("Polish")
         )
         .map(element -> element.selectFirst("td:nth-child(2)"))
         .map(Element::text)
