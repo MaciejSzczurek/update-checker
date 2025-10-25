@@ -34,7 +34,7 @@ jobs:
       - name: Build jar
         run: gradle bootJar
       - name: Upload Jar
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: update-checker-${{ matrix.name }}
           path: build/libs/update-checker-*.jar
