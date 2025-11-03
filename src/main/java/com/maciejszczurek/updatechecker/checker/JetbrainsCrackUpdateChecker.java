@@ -6,12 +6,13 @@ import com.maciejszczurek.updatechecker.application.NewVersionNotFoundException;
 import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @ApplicationType(JETBRAINS_CRACK)
 public class JetbrainsCrackUpdateChecker extends UpdateChecker {
 
-  private static final String LINK_QUERY = "?v=";
-  private static final int LINK_QUERY_LENGTH = LINK_QUERY.length();
+  private final Pattern versionPattern = Pattern.compile("\\((\\d+)\\)");
 
   public JetbrainsCrackUpdateChecker(
     final String siteUrl,
@@ -22,19 +23,16 @@ public class JetbrainsCrackUpdateChecker extends UpdateChecker {
 
   @Override
   public void checkUpdate() throws IOException {
-    final var hrefLink = Optional
-      .ofNullable(
-        getJsoupConnectionInstance()
-          .get()
-          .selectFirst("head > link[href^='styles']")
-      )
-      .orElseThrow(() ->
-        new NewVersionNotFoundException("Cannot find styles link")
-      )
-      .attr("href");
-
     setNewVersion(
-      hrefLink.substring(hrefLink.lastIndexOf(LINK_QUERY) + LINK_QUERY_LENGTH)
+      Optional.ofNullable(
+        getJsoupConnectionInstance().get().selectFirst("body > header > p")
+      )
+        .map(element -> versionPattern.matcher(element.text()))
+        .filter(Matcher::find)
+        .orElseThrow(() ->
+          new NewVersionNotFoundException("Cannot find header paragraph")
+        )
+        .group(1)
     );
   }
 }
