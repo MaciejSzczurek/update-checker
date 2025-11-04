@@ -20,7 +20,7 @@ public class GitScmUpdateChecker extends UpdateChecker {
     setNewVersion(
       getJsoupConnectionInstance()
         .get()
-        .select("#main > p:nth-child(2) > strong:nth-child(2)")
+        .id("auto-download-version")
         .text()
     );
   }
