@@ -267,7 +267,7 @@ class UpdateCheckerTest {
   @Test
   void gitScm() throws IOException, InterruptedException {
     checkUpdate(
-      new GitScmUpdateChecker("https://git-scm.com/download/win", "")
+      new GitScmUpdateChecker("https://git-scm.com/install/windows", "")
     );
   }
 
