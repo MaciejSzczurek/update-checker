@@ -5,7 +5,7 @@ import com.maciejszczurek.updatechecker.application.proto.ApplicationProto;
 import java.time.ZoneOffset;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.infrastructure.item.ItemProcessor;
 
 public class ApplicationToProtoProcessor
   implements ItemProcessor<Application, ApplicationProto.Application> {
