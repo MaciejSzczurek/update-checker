@@ -6,7 +6,7 @@ plugins {
     id "com.github.spotbugs" version '6.4.8'
     id "org.openjfx.javafxplugin" version "0.1.0"
     id "com.google.osdetector" version "1.7.3"
-    id "com.google.protobuf" version "0.9.5"
+    id "com.google.protobuf" version "0.9.6"
     id 'java'
     id 'pmd'
 }
