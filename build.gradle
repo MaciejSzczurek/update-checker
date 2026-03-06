@@ -33,7 +33,7 @@ bootJar {
 }
 
 downloadChromeDriver {
-    version = '146.0.7680.31'
+    version = '146.0.7680.66'
 }
 
 javafx {
