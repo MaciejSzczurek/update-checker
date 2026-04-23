@@ -17,7 +17,7 @@ group = 'com.maciejszczurek'
 version = '41.4.25'
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_25
+    sourceCompatibility = JavaVersion.VERSION_26
 }
 
 repositories {
@@ -37,7 +37,7 @@ downloadChromeDriver {
 }
 
 javafx {
-    version = JavaVersion.VERSION_25
+    version = JavaVersion.VERSION_26
     modules = ['javafx.controls', 'javafx.fxml']
 }
 
