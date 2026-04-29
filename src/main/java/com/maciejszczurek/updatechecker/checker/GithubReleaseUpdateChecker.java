@@ -2,7 +2,6 @@ package com.maciejszczurek.updatechecker.checker;
 
 import static com.maciejszczurek.updatechecker.application.model.ApplicationType.GITHUB_RELEASE;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.maciejszczurek.updatechecker.application.NewVersionNotFoundException;
 import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import com.maciejszczurek.updatechecker.util.UpdateCheckerUtils;
@@ -13,6 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 import org.jsoup.nodes.Element;
+import tools.jackson.core.type.TypeReference;
 
 @ApplicationType(GITHUB_RELEASE)
 public class GithubReleaseUpdateChecker extends UpdateChecker {

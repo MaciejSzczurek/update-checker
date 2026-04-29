@@ -2,7 +2,6 @@ package com.maciejszczurek.updatechecker.checker;
 
 import static com.maciejszczurek.updatechecker.application.model.ApplicationType.DOCKER_HUB;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.maciejszczurek.updatechecker.application.NewVersionNotFoundException;
 import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import com.maciejszczurek.updatechecker.checker.util.DockerHubUtils;
@@ -13,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import tools.jackson.core.type.TypeReference;
 
 @ApplicationType(DOCKER_HUB)
 public class DockerHubUpdateChecker extends UpdateChecker {

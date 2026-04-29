@@ -2,7 +2,6 @@ package com.maciejszczurek.updatechecker.checker;
 
 import static com.maciejszczurek.updatechecker.application.model.ApplicationType.QUAY_REPOSITORY;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.maciejszczurek.updatechecker.application.NewVersionNotFoundException;
 import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import com.maciejszczurek.updatechecker.checker.util.DockerHubUtils;
@@ -15,6 +14,7 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import tools.jackson.core.type.TypeReference;
 
 @ApplicationType(QUAY_REPOSITORY)
 public class QuayRepositoryUpdateChecker extends UpdateChecker {
@@ -69,7 +69,7 @@ public class QuayRepositoryUpdateChecker extends UpdateChecker {
 
     final var tags = (List<?>) (
       (Map<?, ?>) UpdateCheckerUtils
-        .getObjectMapper()
+        .getJsonMapper()
         .readValue(response.body(), TYPE_REF)
     ).get("tags");
 

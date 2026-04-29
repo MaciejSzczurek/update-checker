@@ -1,9 +1,5 @@
 package com.maciejszczurek.updatechecker.util;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maciejszczurek.updatechecker.http.HttpBuilderFactory;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,23 +10,26 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.log4j.Log4j2;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 
 @UtilityClass
 @Log4j2
 public class UpdateCheckerUtils {
 
   @Getter(lazy = true)
-  private final ObjectMapper objectMapper = generateObjectMapper();
+  private final JsonMapper jsonMapper = generateJsonMapper();
 
   @Contract(" -> new")
   @NotNull
-  private synchronized ObjectMapper generateObjectMapper() {
-    return new ObjectMapper();
+  private synchronized JsonMapper generateJsonMapper() {
+    return new JsonMapper();
   }
 
   public JsonNode readTree(@NotNull final URL url)
     throws IOException, InterruptedException {
-    return getObjectMapper().readTree(getInputStreamBody(url));
+    return getJsonMapper().readTree(getInputStreamBody(url));
   }
 
   private InputStream getInputStreamBody(@NotNull final URL url)
@@ -46,16 +45,15 @@ public class UpdateCheckerUtils {
   }
 
   public JsonNode readTree(final InputStream inputStream) throws IOException {
-    return getObjectMapper().readTree(inputStream);
+    return getJsonMapper().readTree(inputStream);
   }
 
-  public JsonNode readTree(final String content)
-    throws JsonProcessingException {
-    return getObjectMapper().readTree(content);
+  public JsonNode readTree(final String content) {
+    return getJsonMapper().readTree(content);
   }
 
   public <T> T readValue(final URL url, final TypeReference<T> typeReference)
     throws IOException, InterruptedException {
-    return getObjectMapper().readValue(getInputStreamBody(url), typeReference);
+    return getJsonMapper().readValue(getInputStreamBody(url), typeReference);
   }
 }

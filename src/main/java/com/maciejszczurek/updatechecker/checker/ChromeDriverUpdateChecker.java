@@ -18,10 +18,9 @@ public class ChromeDriverUpdateChecker extends UpdateChecker {
   }
 
   @Override
-  public void checkUpdate() throws IOException {
+  public void checkUpdate() throws IOException, InterruptedException {
     setNewVersion(
       UpdateCheckerUtils
-        .getObjectMapper()
         .readTree(URI.create(getSiteUrl()).toURL())
         .get("channels")
         .get("Stable")

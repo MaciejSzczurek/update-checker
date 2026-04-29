@@ -2,7 +2,6 @@ package com.maciejszczurek.updatechecker.checker;
 
 import static com.maciejszczurek.updatechecker.application.model.ApplicationType.ADOPTIUM;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.maciejszczurek.updatechecker.application.NewVersionNotFoundException;
 import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import com.maciejszczurek.updatechecker.util.UpdateCheckerUtils;
@@ -11,6 +10,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import lombok.Setter;
+import tools.jackson.core.type.TypeReference;
 
 @ApplicationType(ADOPTIUM)
 public class AdoptiumUpdateChecker extends UpdateChecker implements NameSetter {

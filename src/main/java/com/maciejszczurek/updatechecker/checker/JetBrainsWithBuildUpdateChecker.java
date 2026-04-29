@@ -2,7 +2,6 @@ package com.maciejszczurek.updatechecker.checker;
 
 import static com.maciejszczurek.updatechecker.application.model.ApplicationType.JETBRAINS_WITH_BUILD;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import com.maciejszczurek.updatechecker.util.UpdateCheckerUtils;
 import com.maciejszczurek.updatechecker.util.UrlBuilder;
@@ -32,7 +31,7 @@ public class JetBrainsWithBuildUpdateChecker extends UpdateChecker {
       productCode = productCode.substring(0, indexOfPercent);
     }
 
-    final JsonNode node = UpdateCheckerUtils
+    var node = UpdateCheckerUtils
       .readTree(UrlBuilder.build(getSiteUrl()))
       .findValue(productCode);
 
