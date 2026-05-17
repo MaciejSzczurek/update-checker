@@ -27,13 +27,8 @@ public class NodejsUpdateChecker extends UpdateChecker {
       );
     } else {
       var ltsVersionIndexLocation = versionsData.indexOf(
-        "\\\"status\\\":\\\"Active LTS\\\""
+        "\\\"status\\\":\\\"LTS\\\""
       );
-      if (ltsVersionIndexLocation == -1) {
-        ltsVersionIndexLocation = versionsData.indexOf(
-          "\\\"status\\\":\\\"Maintenance LTS\\\""
-        );
-      }
       versionsData = versionsData.substring(ltsVersionIndexLocation);
     }
     versionsData = versionsData.substring(
