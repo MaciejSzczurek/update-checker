@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.util.Map;
 import lombok.Setter;
+import org.apache.commons.lang3.function.Failable;
 
 @ApplicationType(NAVIGATION_MAPS)
 public class NavigationMapsUpdateChecker extends UpdateChecker {
@@ -124,7 +125,7 @@ public class NavigationMapsUpdateChecker extends UpdateChecker {
               )
             );
       } catch (NewVersionNotFoundException e) {
-        throw new RuntimeException(e);
+        throw Failable.rethrow(e);
       }
       linkFileContent =
         linkFileContent.substring(
