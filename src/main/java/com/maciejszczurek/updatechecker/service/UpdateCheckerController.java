@@ -12,9 +12,7 @@ import com.maciejszczurek.updatechecker.checker.UpdateChecker;
 import com.maciejszczurek.updatechecker.javafx.AlertBundle;
 import com.maciejszczurek.updatechecker.stage.StageException;
 import com.maciejszczurek.updatechecker.util.UrlUtils;
-import com.pivovarit.function.exception.WrappedException;
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -217,24 +215,11 @@ public class UpdateCheckerController implements Initializable {
           }
 
           break;
-        } catch (WrappedException e) {
+        } catch (IOException | RuntimeException e) {
           errors.add(
             EXCEPTION_FOR_MESSAGE.formatted(
               application.getName(),
               e.getCause().getClass().getSimpleName(),
-              e.getLocalizedMessage()
-            )
-          );
-        } catch (
-          IOException
-          | UncheckedIOException
-          | NullPointerException
-          | StringIndexOutOfBoundsException e
-        ) {
-          errors.add(
-            EXCEPTION_FOR_MESSAGE.formatted(
-              application.getName(),
-              e.getClass().getSimpleName(),
               e.getLocalizedMessage()
             )
           );

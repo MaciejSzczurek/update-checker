@@ -7,7 +7,6 @@ import com.maciejszczurek.updatechecker.checker.annotation.ApplicationType;
 import com.maciejszczurek.updatechecker.chrome.service.ChromeDriverHolder;
 import com.maciejszczurek.updatechecker.http.HttpBuilderFactory;
 import com.maciejszczurek.updatechecker.util.UrlBuilder;
-import com.pivovarit.function.exception.WrappedException;
 import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.util.Map;
@@ -110,10 +109,10 @@ public class NavigationMapsUpdateChecker extends UpdateChecker {
                   )
                   .body();
               } catch (IOException e) {
-                throw new WrappedException(e);
+                throw new RuntimeException(e);
               } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                throw new WrappedException(e);
+                throw new RuntimeException(e);
               }
             })
             .filter(fileContent -> fileContent.contains(DISCOVER_MEDIA_FILENAME)
@@ -125,7 +124,7 @@ public class NavigationMapsUpdateChecker extends UpdateChecker {
               )
             );
       } catch (NewVersionNotFoundException e) {
-        throw new WrappedException(e);
+        throw new RuntimeException(e);
       }
       linkFileContent =
         linkFileContent.substring(
