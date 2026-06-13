@@ -45,6 +45,11 @@ protobuf {
     protoc {
         artifact = 'com.google.protobuf:protoc:4.35.0'
     }
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.82.0'
+        }
+    }
 }
 
 pmd {
