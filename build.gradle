@@ -72,7 +72,7 @@ dependencies {
     implementation 'commons-io:commons-io:2.22.0'
     implementation "org.hibernate.orm:hibernate-core"
     implementation "org.hibernate.validator:hibernate-validator"
-    implementation 'net.java.dev.jna:jna:5.19.0'
+    implementation 'net.java.dev.jna:jna:5.19.1'
     implementation "org.seleniumhq.selenium:selenium-api:4.44.0"
     implementation "org.seleniumhq.selenium:selenium-http:4.44.0"
     implementation "org.seleniumhq.selenium:selenium-json:4.44.0"
