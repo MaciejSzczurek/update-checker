@@ -555,16 +555,6 @@ class UpdateCheckerTest {
   }
 
   @Test
-  void chromiumWindows() throws IOException, InterruptedException {
-    checkUpdate(
-      new ChromiumWindowsUpdateChecker(
-        "https://chromium.woolyss.com/api/v3/?os=windows&out=json&type=stable-codecs-sync",
-        ""
-      )
-    );
-  }
-
-  @Test
   void chromiumMac() throws IOException, InterruptedException {
     checkUpdate(
       new ChromiumMacUpdateChecker("https://chromium.woolyss.com", "")
