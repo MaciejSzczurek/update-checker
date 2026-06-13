@@ -17,10 +17,10 @@ import org.springframework.batch.core.step.Step;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.infrastructure.item.database.JpaPagingItemReader;
 import org.springframework.batch.infrastructure.item.database.builder.JpaPagingItemReaderBuilder;
-import org.springframework.batch.infrastructure.repeat.policy.DefaultResultCompletionPolicy;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.retry.RetryPolicy;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
@@ -46,10 +46,9 @@ public class ExporterConfig extends DefaultBatchConfiguration {
     final JobRepository jobRepository
   ) {
     return new StepBuilder("exportApplicationsStep", jobRepository)
-      .<Application, ApplicationProto.Application>chunk(
-        new DefaultResultCompletionPolicy(),
-        transactionManager
-      )
+      .<Application, ApplicationProto.Application>chunk(100)
+      .transactionManager(transactionManager)
+      .retryPolicy(RetryPolicy.builder().maxRetries(5).build())
       .reader(applicationJpaPagingItemReader())
       .processor(applicationToProtoProcessor())
       .writer(applicationFileWriter)

@@ -19,10 +19,10 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.infrastructure.item.database.JpaItemWriter;
 import org.springframework.batch.infrastructure.item.database.builder.JpaItemWriterBuilder;
 import org.springframework.batch.infrastructure.repeat.RepeatStatus;
-import org.springframework.batch.infrastructure.repeat.policy.DefaultResultCompletionPolicy;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.retry.RetryPolicy;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
@@ -62,10 +62,9 @@ public class ImporterConfig extends DefaultBatchConfiguration {
     final ApplicationFileReader applicationFileReader
   ) {
     return new StepBuilder("importApplicationsStep", jobRepository)
-      .<ApplicationProto.Application, Application>chunk(
-        new DefaultResultCompletionPolicy(),
-        transactionManager
-      )
+      .<ApplicationProto.Application, Application>chunk(100)
+      .transactionManager(transactionManager)
+      .retryPolicy(RetryPolicy.builder().maxRetries(5).build())
       .reader(applicationFileReader)
       .processor(applicationProtoToApplication())
       .writer(applicationJpaItemWriter())

@@ -10,7 +10,7 @@ import org.springframework.batch.core.job.parameters.JobParameter;
 import org.springframework.batch.core.job.parameters.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.launch.JobInstanceAlreadyCompleteException;
-import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.batch.core.launch.JobOperator;
 import org.springframework.batch.core.launch.JobRestartException;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +18,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class ImporterExporter {
 
-  private final JobLauncher jobLauncher;
+  private final JobOperator jobOperator;
   private final Job importApplications;
   private final Job exportApplications;
 
   public JobExecution importApplications(final File file)
     throws InvalidJobParametersException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
-    return jobLauncher.run(
+    return jobOperator.run(
       importApplications,
       new JobParametersBuilder()
         .addDate("date", new Date())
@@ -35,7 +35,7 @@ public class ImporterExporter {
 
   public JobExecution exportApplications(final File file)
     throws InvalidJobParametersException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
-    return jobLauncher.run(
+    return jobOperator.run(
       exportApplications,
       new JobParametersBuilder()
         .addDate("date", new Date())
