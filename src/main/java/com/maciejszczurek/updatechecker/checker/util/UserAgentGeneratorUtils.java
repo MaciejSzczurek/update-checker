@@ -164,11 +164,11 @@ public class UserAgentGeneratorUtils {
     if (chromeMajorVersion == null) {
       var chromeVersion = UpdateCheckerUtils.readTree(
         URI.create(
-          "https://chromium.woolyss.com/api/v3/?os=windows&out=json&type=stable-codecs-sync"
+          "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions.json"
         ).toURL()
       )
-        .get("chromium")
-        .get("windows")
+        .get("channels")
+        .get("Stable")
         .get("version")
         .textValue();
       chromeMajorVersion = chromeVersion.substring(
